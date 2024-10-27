@@ -1,0 +1,36 @@
+name: .NET Core Audit
+
+on:
+  push:
+    branches:
+      - main
+      - test_before_prod
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  audit-lib:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout librairies
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0'
+
+    - name: Restore dependencies and run audit in Api Server
+      run: |
+        dotnet restore
+        dotnet list package --vulnerable
+
+    - name: Build Api Server
+      run: |
+        dotnet build
+
+    - name: Unit Testing Api Server
+      run: |
+        dotnet test

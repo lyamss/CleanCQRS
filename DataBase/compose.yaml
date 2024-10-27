@@ -1,0 +1,52 @@
+networks:
+  clean_cqrs:
+      driver: bridge
+  
+services:
+
+    postgresdbsqlcleancqrs:
+        image: postgres:latest
+        container_name: postgresdbsqlcleancqrs
+        restart: unless-stopped
+        environment:
+          POSTGRES_USER: ${DB_USER}
+          POSTGRES_PASSWORD: ${DB_PASSWORD}
+          POSTGRES_DB: ${DB_DATABASE}
+        ports:
+           - "127.0.0.1:4237:5432"
+        volumes:
+          - pgdatacleancqrs:/var/lib/postgresql/data:rw
+        networks:
+          - clean_cqrs
+
+
+    pgadmincleancqrs:
+        image: dpage/pgadmin4:latest
+        container_name: pgadmincleancqrs
+        restart: unless-stopped
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+        ports:
+            - "127.0.0.1:2389:80"
+        depends_on:
+            - postgresdbsqlcleancqrs
+        networks:
+            - clean_cqrs
+
+
+    redis-cleancqrs:
+        image: redis:latest
+        container_name: redis-cleancqrs
+        restart: unless-stopped
+        ports:
+          - "127.0.0.1:6421:6379"
+        volumes:
+          - redis-data-cleancqrs:/data
+        networks:
+          - clean_cqrs
+
+
+volumes:
+  pgdatacleancqrs:
+  redis-data-cleancqrs:

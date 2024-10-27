@@ -1,0 +1,21 @@
+networks:
+  database_clean_cqrs:
+      external: true
+
+services:
+
+  apicleancqrs:
+    container_name: apicleancqrs
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - ${PORT_BACKEND}:${PORT_BACKEND}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+        - ASPNETCORE_URLS=http://+:${PORT_BACKEND}
+        - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+        - database_clean_cqrs
