@@ -35,5 +35,14 @@ namespace Application.UseCases
                     (cancellationToken) => this._userRepository.GetUserWithPseudo(Pseudo, cancellationToken),
                     cancellationToken
                 );
+
+        public async Task<IEnumerable<User>> GetAllUsersAsyncCache(CancellationToken cancellationToken)
+            => await _cacheService.SetOrGetInDbOrCache
+                (
+                    this._configString.KeyInCacheGetAllUsers,
+        TimeSpan.FromSeconds(30),
+                    (cancellationToken) => this._dbSetExtensions.GetAllAsync(cancellationToken),
+                    cancellationToken
+                );
     }
 }

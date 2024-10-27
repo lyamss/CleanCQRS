@@ -5,5 +5,7 @@
         public string KeyInCacheGetByIdAsync => "GetByIdAsync";
 
         public string KeyInCacheGetUserWithPseudo => "GetUserWithPseudo";
+
+        public string KeyInCacheGetAllUsers => "GetAllUsers";
     }
 }

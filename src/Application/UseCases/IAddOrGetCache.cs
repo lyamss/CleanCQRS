@@ -6,5 +6,7 @@ namespace Application.UseCases
     {
         Task<User> GetUserByIdAsyncCache(int idUser, CancellationToken cancellationToken);
         Task<User> GetUserWithPseudoAsyncCache(string Pseudo, CancellationToken cancellationToken);
+
+        Task<IEnumerable<User>> GetAllUsersAsyncCache(CancellationToken cancellationToken);
     }
 }
