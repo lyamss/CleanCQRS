@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Extensions;
 using Application.Extensions;
-using StackExchange.Redis;
 using Infrastructure.Persistence;
 using DotNetEnv;
 using Application.Handlers.Users;
@@ -24,8 +23,6 @@ namespace API
             services.AddHttpContextAccessor();
 
             services.AddControllers();
-
-            services.AddUseCaseControllers();
 
             services.AddServicesControllers();
 
@@ -54,13 +51,6 @@ namespace API
             {
                 var dataContext = scope.ServiceProvider.GetRequiredService<IBackendDbContext>();
                 dataContext.Migrate();
-
-                var cacheDB = ConnectionMultiplexer.Connect(Env.GetString("ConnexionRedis"));
-                if (!cacheDB.IsConnected)
-                {
-                    Console.WriteLine("Failed to connect to CacheDB, Exiting API :/");
-                    Environment.Exit(1);
-                }
             }
 
             app.UseSwagger();

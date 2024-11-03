@@ -15,18 +15,12 @@ namespace Infrastructure.Extensions
                 options.UseNpgsql(ConnexionDB);
             });
 
-            services.AddStackExchangeRedisCache(rediosOptions =>
-            {
-                rediosOptions.Configuration = (ConnexionRedis);
-            });
-
             // repository
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IUserRepository, UserRepository>();
             
             // persistence
             services.AddScoped<IBackendDbContext, BackendDbContext>();
-            services.AddTransient<ICacheService, CacheService>();
         }
     }
 }

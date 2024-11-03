@@ -15,7 +15,7 @@ namespace Domain.Mappers.Users
             return new GetUserQuery
             {
                 Id_User = user.Id_User,
-                Pseudo = user.Pseudo,
+                Email = user.Email,
             };
         }
     }

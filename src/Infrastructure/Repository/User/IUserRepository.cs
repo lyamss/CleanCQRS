@@ -2,6 +2,6 @@
 {
     public interface IUserRepository
     {
-        Task<Domain.Models.User> GetUserWithPseudo(string pseudo, CancellationToken cancellationToken);
+        Task<Domain.Models.User> GetUserWithEmail(string email, CancellationToken cancellationToken);
     }
 }

@@ -6,8 +6,8 @@ namespace Domain.Commands.Users
     public class CreateUserCommand : IRequest<ApiResponseDto>
     {
         [Required]
-        [MaxLength(15)]
-        public string Pseudo { get; set; }
+        [MaxLength(64)]
+        public string Email { get; set; }
 
         [Required]
         [MaxLength(100)]

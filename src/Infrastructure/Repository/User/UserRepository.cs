@@ -6,8 +6,8 @@ namespace Infrastructure.Repository.User
     {
         public UserRepository(BackendDbContext backendDbContext) : base(backendDbContext) { }
 
-        public async Task<Domain.Models.User> GetUserWithPseudo(string pseudo, CancellationToken cancellationToken)
+        public async Task<Domain.Models.User> GetUserWithEmail(string email, CancellationToken cancellationToken)
             => await this._context.Users
-            .FirstOrDefaultAsync(u => u.Pseudo.ToLower() == pseudo.ToLower(), cancellationToken);
+            .FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower(), cancellationToken);
     }
 }

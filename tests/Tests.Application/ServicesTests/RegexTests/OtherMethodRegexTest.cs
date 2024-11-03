@@ -44,7 +44,7 @@ namespace Tests.Application.ServicesTests.RegexTests
             // Arrange
             var userDto = new CreateUserCommand
             {
-                Pseudo = "ValidName",
+                Email = "toto@gmail.com",
                 Password = "ValidPassword123"
             };
 
@@ -61,7 +61,7 @@ namespace Tests.Application.ServicesTests.RegexTests
             // Arrange
             var userDto = new CreateUserCommand
             {
-                Pseudo = "ValidNamezjehdbzhjebdhjzebdjezbdhezbhd", // false
+                Email = "ValidNamezjehdbzhjebdhjzebdjezbdhezbhd", // false
                 Password = "short"
             };
 

@@ -1,24 +1,24 @@
-﻿using Application.UseCases;
-using Domain.Dtos.AppLayerDtos;
+﻿using Domain.Dtos.AppLayerDtos;
 using Domain.Mappers.Users;
 using Domain.Models;
 using Domain.Query.Users;
+using Infrastructure.Repository;
 using MediatR;
 namespace Application.Handlers.Users
 {
     public sealed class GetUsersCommandHandler
         (
             UserMapper userMapper,
-            IAddOrGetCache addOrGetCache
+            IRepository<User> repository
         )
         : IRequestHandler<GetUserQuery, ApiResponseDto>
     {
         private readonly UserMapper _userMapper = userMapper;
-        private readonly IAddOrGetCache _addOrGetCache = addOrGetCache;
+        private readonly IRepository<User> _repository = repository;
 
         public async Task<ApiResponseDto> Handle(GetUserQuery getUserCommand, CancellationToken cancellationToken)
         {
-            IEnumerable<User> dataUserNowConnect = await this._addOrGetCache.GetAllUsersAsyncCache(cancellationToken);
+            IEnumerable<User> dataUserNowConnect = await this._repository.GetAllAsync(cancellationToken);
 
             if (!dataUserNowConnect.Any()) { return ApiResponseDto.Failure("No Users in DB"); }
 

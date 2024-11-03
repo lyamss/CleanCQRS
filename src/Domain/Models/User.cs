@@ -6,18 +6,21 @@ namespace Domain.Models
     {
         public User() => AccountCreatedAt = DateTime.UtcNow;
 
-        [Key]
+        [Key, Required]
         public int Id_User { get; set; }
 
         [Required]
-        [MaxLength(15)]
-        public string Pseudo { get; set; }
+        [MaxLength(64)]
+        public string Email { get; set; }
 
         [Required]
         [MaxLength(150)]
         public string PasswordHash { get; set; }
 
         [Required]
-        public DateTime AccountCreatedAt { get; private set; }
+        public DateTime AccountCreatedAt { get; set; }
+
+        public ICollection<AuthToken> AuthToken { get; set; }
+        public ICollection<Transaction> Transaction { get; set; }
     }
 }

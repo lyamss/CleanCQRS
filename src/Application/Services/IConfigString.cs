@@ -2,9 +2,6 @@
 {
     public interface IConfigString
     {
-        public string KeyInCacheGetByIdAsync { get; }
-        public string KeyInCacheGetUserWithPseudo { get; }
-
-        public string KeyInCacheGetAllUsers { get; }
+        public string Test { get; }
     }
 }
