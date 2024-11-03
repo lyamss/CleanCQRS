@@ -47,4 +47,9 @@ namespace Infrastructure.Persistence
             Database.Migrate();
         }
     }
+
+    public interface IBackendDbContext
+    {
+        void Migrate();
+    }
 }

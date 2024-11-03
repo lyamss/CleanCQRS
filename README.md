@@ -33,6 +33,7 @@ classDiagram
     class AuthToken {
       + emissionDate: DateTime
       + expirationDate: DateTime
+      + Token: string
     }
 
 

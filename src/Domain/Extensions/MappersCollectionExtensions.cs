@@ -2,7 +2,7 @@
 using Domain.Mappers.Users;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Application.Extensions
+namespace Domain.Extensions
 {
     public static class MappersCollectionExtensions
     {

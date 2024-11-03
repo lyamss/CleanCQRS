@@ -1,7 +1,7 @@
 ﻿using Domain.Dtos.AppLayerDtos;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
-namespace Domain.Commands.Users
+namespace Domain.Commands.Authentification
 {
     public class CreateUserCommand : IRequest<ApiResponseDto>
     {

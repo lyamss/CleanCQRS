@@ -4,4 +4,9 @@
     {
         public string Test => "test";
     }
+
+    public interface IConfigString
+    {
+        public string Test { get; }
+    }
 }

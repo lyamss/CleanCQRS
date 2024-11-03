@@ -4,11 +4,13 @@ namespace Domain.Models
 {
     public class Transaction
     {
+        public Transaction() => TransactionDate = DateTime.Now;
+
         [Key, Required]
         public int Id_transaction { get; set; }
 
         [Required]
-        public DateTime TransactionDate { get; set; } = DateTime.UtcNow;
+        public DateTime TransactionDate { get; set; }
 
         [Required]
         public int UserId { get; set; }
@@ -16,7 +18,7 @@ namespace Domain.Models
 
         public double GetTotalAmount()
         {
-            return 1;
+            return TransactionItems.Sum(ti => ti.Items.Price);
         }
 
         public ICollection<TransactionItems> TransactionItems { get; set; }

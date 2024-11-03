@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Persistence;
-using Infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
@@ -40,4 +39,15 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         return await _context.SaveChangesAsync(cancellationToken);
     }
+}
+
+public interface IRepository<TEntity> where TEntity : class
+{
+    Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task AddAsync(TEntity entity, CancellationToken cancellationToken);
+    void Delete(TEntity entity);
+
+    void UpdateSwap(TEntity NewEntity, TEntity OldEntity);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
 }

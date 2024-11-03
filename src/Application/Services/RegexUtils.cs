@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using Domain.Commands.Users;
+using Domain.Commands.Authentification;
+
 namespace Application.Services
 {
     public class RegexUtils : IRegexUtils
@@ -29,5 +30,12 @@ namespace Application.Services
             if(!this.PasswordRegex.IsMatch(password.ToString())) return false;
             return true;
         }
+    }
+
+    public interface IRegexUtils
+    {
+        bool CheckEmail(string email);
+        bool CheckPassword(string password);
+        (bool, string) CheckSetUserRegistration(CreateUserCommand userRegistrationDto);
     }
 }

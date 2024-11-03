@@ -2,7 +2,9 @@
 using Application.Extensions;
 using Infrastructure.Persistence;
 using DotNetEnv;
-using Application.Handlers.Users;
+using Application.Handlers.Authentification;
+using API.Filters;
+using Domain.Extensions;
 namespace API
 {
     public class Startup(IConfiguration configuration)
@@ -28,7 +30,9 @@ namespace API
 
             services.MappersExtentedInjec();
 
-            services.AddInfrastructure(Env.GetString("ConnexionDB"), Env.GetString("ConnexionRedis"));
+            services.AddInfrastructure(Env.GetString("ConnexionDB"));
+
+            services.AddScoped<AuthorizeAuth>();
 
             services.AddCors(options =>
             {

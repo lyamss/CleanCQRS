@@ -1,8 +1,8 @@
 ﻿using Domain.Dtos.AppLayerDtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Commands.Users;
-namespace API.Controllers.Users
+using Domain.Commands.Authentification;
+namespace API.Controllers.Authentification
 {
     [Route("api/users")]
     [ApiController]
@@ -14,8 +14,8 @@ namespace API.Controllers.Users
         public async Task<IActionResult> CreateUser([FromBody]
         CreateUserCommand setuserRegistrationDto, CancellationToken cancellationToken)
         {
-            if (!this.ModelState.IsValid)
-                return BadRequest(this.ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
             ApiResponseDto _responseApi = await this._mediator.Send(setuserRegistrationDto, cancellationToken);
 
