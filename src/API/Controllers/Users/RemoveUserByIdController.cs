@@ -13,8 +13,8 @@ namespace API.Controllers.Users
     {
         private readonly IMediator _mediator = mediator;
 
-        [HttpDelete("{idUser}")]
-        public async Task<IActionResult> Delete([FromRoute] int idUser, CancellationToken cancellationToken)
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> Delete([FromQuery] int idUser, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
