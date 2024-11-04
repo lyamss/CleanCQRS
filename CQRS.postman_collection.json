@@ -1,0 +1,164 @@
+{
+	"info": {
+		"_postman_id": "21ce7885-c61c-4616-bac3-7aa52ec28357",
+		"name": "CQRS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38736257"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3178/api/users/GetAllUsers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "665620b3-2c6b-4afa-96e8-41022b2b6508",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3178/api/users/GetAllUsers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"users",
+						"GetAllUsers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/RemoveUserById/10",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "665620b3-2c6b-4afa-96e8-41022b2b6508",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"idUser\": 6,\r\n  \"email\": \"mrbeastZero@youtube.com\",\r\n  \"password\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3178/api/users/UpdateUserById",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"users",
+						"UpdateUserById"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/RemoveUserById/10 Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "665620b3-2c6b-4afa-96e8-41022b2b6508",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"idUser\": 0,\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3178/api/users/RemoveUserById?idUser=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"users",
+						"RemoveUserById"
+					],
+					"query": [
+						{
+							"key": "idUser",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/GetUserById/GetUserId?idUser=4",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "dc34a572-76c1-45ea-88b3-32ac5615e956",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3178/api/users/GetUserById?idUser=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"users",
+						"GetUserById"
+					],
+					"query": [
+						{
+							"key": "idUser",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

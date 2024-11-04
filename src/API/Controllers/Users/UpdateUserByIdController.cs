@@ -9,18 +9,19 @@ namespace API.Controllers.Users
     [Route("api/users")]
     [ApiController]
     [ServiceFilter(typeof(AuthorizeAuth))]
-    public class GetUserByIdController(IMediator mediator) : ControllerBase
+    public class UpdateUserByIdController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 
-        [HttpGet("GetUserById")]
-        public async Task<IActionResult> GetUserById([FromQuery] int idUser, CancellationToken cancellationToken)
+        [HttpPatch("UpdateUserById")]
+        public async Task<IActionResult> UpdateUserById(
+        [FromBody] UpdateUserCommand updateUserCommand, CancellationToken cancellationToken)
         {
+            Console.WriteLine("Request received");
             if (!this.ModelState.IsValid)
                 return BadRequest(this.ModelState);
 
-            var getUserByIdCommand = new GetUserByIdCommand(idUser);
-            ApiResponseDto _responseApi = await this._mediator.Send(getUserByIdCommand, cancellationToken);
+            ApiResponseDto _responseApi = await this._mediator.Send(updateUserCommand, cancellationToken);
 
             return _responseApi.SuccesResponse ? Ok(_responseApi) : BadRequest(_responseApi);
         }

@@ -27,7 +27,7 @@ namespace Application.Handlers.Users
 
             var getUserDtos = this._userMapper.ToGetUserMapper(usr);
 
-            return ApiResponseDto.Success("User(s) found", getUserDtos);
+            return ApiResponseDto.Success("User found", getUserDtos);
         }
     }
 }

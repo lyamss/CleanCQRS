@@ -5,18 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Authentification
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class LoginUserController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 
-        [HttpPost("LoginUser")]
-        public async Task<IActionResult> LoginUser([FromBody]
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody]
         LoginUserCommand setuserLoginDto, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!this.ModelState.IsValid)
+                return BadRequest(this.ModelState);
 
             ApiResponseDto _responseApi = await this._mediator.Send(setuserLoginDto, cancellationToken);
 

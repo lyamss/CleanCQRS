@@ -4,18 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 using Domain.Commands.Authentification;
 namespace API.Controllers.Authentification
 {
-    [Route("api/users")]
+    [Route("api/auth")]
     [ApiController]
-    public class CreateUserController(IMediator mediator) : ControllerBase
+    public class RegisterUserController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 
-        [HttpPost("CreateUser")]
-        public async Task<IActionResult> CreateUser([FromBody]
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody]
         CreateUserCommand setuserRegistrationDto, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!this.ModelState.IsValid)
+                return BadRequest(this.ModelState);
 
             ApiResponseDto _responseApi = await this._mediator.Send(setuserRegistrationDto, cancellationToken);
 

@@ -6,18 +6,19 @@ using Domain.Commands.Users;
 
 namespace API.Controllers.Users
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     [ServiceFilter(typeof(AuthorizeAuth))]
-    public class RemoveUserByIdController(IMediator mediator) : ControllerBase
+    public class UpdateAndRemoveUserByIdController(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromQuery] int idUser, CancellationToken cancellationToken)
+        [HttpDelete("RemoveUserById")]
+        public async Task<IActionResult> RemoveUserById(
+        [FromQuery] int idUser, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!this.ModelState.IsValid)
+                return BadRequest(this.ModelState);
 
             var removeUserByIdCommand = new RemoveUserByIdCommand(idUser);
             ApiResponseDto _responseApi = await this._mediator.Send(removeUserByIdCommand, cancellationToken);
