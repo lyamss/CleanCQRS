@@ -2,7 +2,6 @@
 using Domain.Mappers.Users;
 using Domain.Models;
 using Domain.Query.Users;
-using Infrastructure.Repository;
 using MediatR;
 namespace Application.Handlers.Users
 {
