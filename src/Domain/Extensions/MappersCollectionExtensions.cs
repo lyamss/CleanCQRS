@@ -1,4 +1,5 @@
 ﻿using Domain.Mappers.AuthToken;
+using Domain.Mappers.Items;
 using Domain.Mappers.Users;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,7 @@ namespace Domain.Extensions
         {
             serviceCollection.AddScoped<UserMapper>();
             serviceCollection.AddScoped<AuthTokenMapper>();
+            serviceCollection.AddScoped<ItemsMapper>();
         }
     }
 }

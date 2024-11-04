@@ -11,7 +11,7 @@ namespace Domain.Commands.Users
 
         public GetUserByIdCommand(int userIdToGet)
         {
-            UserIdToGet = userIdToGet;
+            this.UserIdToGet = userIdToGet;
         }
     }
 }

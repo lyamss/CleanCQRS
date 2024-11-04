@@ -90,6 +90,86 @@
 						}
 					]
 				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"ratata@gmail.com\",\r\n  \"password\": \"123toto123@\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3178/api/auth/Register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"auth",
+						"Register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/RemoveUserById/10 Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "a3a331ad-6d08-45c2-bb50-5c053e454cf0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"price\": 10.50,\r\n  \"description\": \"viande halal 100%\",\r\n  \"name\": \"Brochette\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3178/api/items/AddItems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"items",
+						"AddItems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/RemoveUserById/10 Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "665620b3-2c6b-4afa-96e8-41022b2b6508",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [],
 				"body": {
