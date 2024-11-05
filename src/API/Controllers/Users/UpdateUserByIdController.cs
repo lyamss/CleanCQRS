@@ -19,11 +19,13 @@ namespace API.Controllers.Users
         {
             Console.WriteLine("Request received");
             if (!this.ModelState.IsValid)
-                return BadRequest(this.ModelState);
+                return this.BadRequest(this.ModelState);
 
             ApiResponseDto _responseApi = await this._mediator.Send(updateUserCommand, cancellationToken);
 
-            return _responseApi.SuccesResponse ? Ok(_responseApi) : BadRequest(_responseApi);
+            return _responseApi.SuccesResponse 
+                ? this.Ok(_responseApi) 
+                : this.BadRequest(_responseApi);
         }
     }
 }

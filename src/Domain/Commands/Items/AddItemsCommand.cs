@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Commands.Items
 {
-    public class AddItemsCommand : IRequest<ApiResponseDto>
+    public record class AddItemsCommand : IRequest<ApiResponseDto>
     {
         [Required]
         public double Price { get; set; }

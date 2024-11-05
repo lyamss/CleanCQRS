@@ -3,7 +3,7 @@ using Domain.Query.Users;
 
 namespace Domain.Mappers.Users
 {
-    public class UserMapper
+    public sealed record class UserMapper
     {
         public GetUserQuery ToGetUserMapper(User user)
         {

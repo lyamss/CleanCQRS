@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Application.Handlers.Users
 {
-    internal class UpdateUserByIdCommandHandler
+    internal sealed class UpdateUserByIdCommandHandler
         (
         IRepository<User> UserRepositoryExtensions,
         IRegexUtils regexUtils,

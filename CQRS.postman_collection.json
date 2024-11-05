@@ -8,19 +8,31 @@
 	"item": [
 		{
 			"name": "http://localhost:3178/api/users/GetAllUsers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "665620b3-2c6b-4afa-96e8-41022b2b6508",
+							"value": "{{SecretTokenAuth}}",
 							"type": "string"
 						}
 					]
 				},
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "http://localhost:3178/api/users/GetAllUsers",
 					"protocol": "http",
@@ -38,14 +50,14 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3178/api/RemoveUserById/10",
+			"name": "http://localhost:3178/api/users/UpdateUserById",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "665620b3-2c6b-4afa-96e8-41022b2b6508",
+							"value": "{{SecretTokenAuth}}",
 							"type": "string"
 						}
 					]
@@ -78,7 +90,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3178/api/RemoveUserById/10 Copy",
+			"name": "http://localhost:3178/api/auth/Register",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -94,7 +106,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"ratata@gmail.com\",\r\n  \"password\": \"123toto123@\"\r\n}",
+					"raw": "{\r\n  \"email\": \"testo@gmail.com\",\r\n  \"password\": \"123toto123@\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -118,14 +130,54 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3178/api/RemoveUserById/10 Copy",
+			"name": "http://localhost:3178/api/auth/Login",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "a3a331ad-6d08-45c2-bb50-5c053e454cf0",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"ratata@gmail.com\",\r\n  \"password\": \"123toto123@\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3178/api/auth/Login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"auth",
+						"Login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/items/AddItems",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SecretTokenAuth}}",
 							"type": "string"
 						}
 					]
@@ -158,14 +210,14 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3178/api/RemoveUserById/10 Copy",
+			"name": "http://localhost:3178/api/users/RemoveUserById?idUser=5",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "665620b3-2c6b-4afa-96e8-41022b2b6508",
+							"value": "{{SecretTokenAuth}}",
 							"type": "string"
 						}
 					]
@@ -204,14 +256,14 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3178/api/GetUserById/GetUserId?idUser=4",
+			"name": "http://localhost:3178/api/users/GetUserById?idUser=6",
 			"request": {
 				"auth": {
 					"type": "bearer",
 					"bearer": [
 						{
 							"key": "token",
-							"value": "dc34a572-76c1-45ea-88b3-32ac5615e956",
+							"value": "{{SecretTokenAuth}}",
 							"type": "string"
 						}
 					]
@@ -229,6 +281,43 @@
 						"api",
 						"users",
 						"GetUserById"
+					],
+					"query": [
+						{
+							"key": "idUser",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/items/GetItemsById?idUser=6",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SecretTokenAuth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3178/api/items/GetItemsById?idUser=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"items",
+						"GetItemsById"
 					],
 					"query": [
 						{

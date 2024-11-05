@@ -16,12 +16,14 @@ namespace API.Controllers.Items
         public async Task<IActionResult> GetItemsById([FromQuery] int idUser, CancellationToken cancellationToken)
         {
             if (!this.ModelState.IsValid)
-                return BadRequest(this.ModelState);
+                return this.BadRequest(this.ModelState);
 
             var getItemsByIdCommand = new GetItemsCommand(idUser);
             ApiResponseDto _responseApi = await this._mediator.Send(getItemsByIdCommand, cancellationToken);
 
-            return _responseApi.SuccesResponse ? Ok(_responseApi) : BadRequest(_responseApi);
+            return _responseApi.SuccesResponse 
+                ? this.Ok(_responseApi) 
+                : this.BadRequest(_responseApi);
         }
     }
 }

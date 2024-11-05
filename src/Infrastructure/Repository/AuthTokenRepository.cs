@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
 {
-    internal class AuthTokenRepository : Repository<Domain.Models.AuthToken>, IAuthTokenRepository
+    internal sealed class AuthTokenRepository : Repository<Domain.Models.AuthToken>, IAuthTokenRepository
     {
         public AuthTokenRepository(BackendDbContext backendDbContext) : base(backendDbContext) { }
 

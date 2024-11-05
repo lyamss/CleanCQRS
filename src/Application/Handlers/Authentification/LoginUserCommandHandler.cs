@@ -9,7 +9,7 @@ using MediatR;
 
 namespace Application.Handlers.Authentification
 {
-    public sealed class LoginUserCommandHandler
+    internal sealed class LoginUserCommandHandler
         (
         IRegexUtils regexUtils,
         IUserRepository userRepository,

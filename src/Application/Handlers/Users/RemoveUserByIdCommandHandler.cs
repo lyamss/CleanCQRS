@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Handlers.Users
 {
-    internal class RemoveUserByIdCommandHandler
+    internal sealed class RemoveUserByIdCommandHandler
         (
         IRepository<User> UserRepositoryExtensions
         ) 

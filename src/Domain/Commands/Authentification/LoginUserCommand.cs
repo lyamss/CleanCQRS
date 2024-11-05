@@ -1,6 +1,6 @@
 ﻿namespace Domain.Commands.Authentification
 {
-    public class LoginUserCommand : CreateUserCommand
+    public record class LoginUserCommand : CreateUserCommand
     {
 
     }

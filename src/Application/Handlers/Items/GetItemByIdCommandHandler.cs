@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Handlers.Items
 {
-    internal class GetItemByIdCommandHandler
+    internal sealed class GetItemByIdCommandHandler
         (
         IRepository<Domain.Models.Items> repositoryItemsExtensions,
         ItemsMapper itemsMapper

@@ -3,7 +3,7 @@ using Domain.Commands.Authentification;
 
 namespace Application.Services
 {
-    public class RegexUtils : IRegexUtils
+    internal class RegexUtils : IRegexUtils
     {
         private readonly Regex PasswordRegex = new(@"^.{8,100}$", RegexOptions.Compiled);
         private readonly Regex EmailRegex = new(@"^(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$", RegexOptions.Compiled);

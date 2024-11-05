@@ -5,7 +5,7 @@ using Domain.Query.Users;
 using MediatR;
 namespace Application.Handlers.Users
 {
-    public sealed class GetAllUsersCommandHandler
+    internal sealed class GetAllUsersCommandHandler
         (
             UserMapper userMapper,
             IRepository<User> UserRepositoryExtensions

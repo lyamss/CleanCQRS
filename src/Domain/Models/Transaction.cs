@@ -4,7 +4,7 @@ namespace Domain.Models
 {
     public class Transaction
     {
-        public Transaction() => TransactionDate = DateTime.Now;
+        public Transaction() => this.TransactionDate = DateTime.Now;
 
         [Key, Required]
         public int Id_transaction { get; set; }
@@ -18,7 +18,7 @@ namespace Domain.Models
 
         public double GetTotalAmount()
         {
-            return TransactionItems.Sum(ti => ti.Items.Price);
+            return this.TransactionItems.Sum(ti => ti.Items.Price);
         }
 
         public ICollection<TransactionItems> TransactionItems { get; set; }

@@ -17,12 +17,14 @@ namespace API.Controllers.Users
         public async Task<IActionResult> GetUserById([FromQuery] int idUser, CancellationToken cancellationToken)
         {
             if (!this.ModelState.IsValid)
-                return BadRequest(this.ModelState);
+                return this.BadRequest(this.ModelState);
 
             var getUserByIdCommand = new GetUserByIdCommand(idUser);
             ApiResponseDto _responseApi = await this._mediator.Send(getUserByIdCommand, cancellationToken);
 
-            return _responseApi.SuccesResponse ? Ok(_responseApi) : BadRequest(_responseApi);
+            return _responseApi.SuccesResponse 
+                ? this.Ok(_responseApi) 
+                : this.BadRequest(_responseApi);
         }
     }
 }

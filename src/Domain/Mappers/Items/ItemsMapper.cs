@@ -2,7 +2,7 @@
 
 namespace Domain.Mappers.Items
 {
-    public class ItemsMapper
+    public sealed record class ItemsMapper
     {
         public GetItemsQuery ToGetItemsMapper(Domain.Models.Items items)
         {

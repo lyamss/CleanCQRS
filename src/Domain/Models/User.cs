@@ -4,7 +4,7 @@ namespace Domain.Models
 {
     public class User
     {
-        public User() => AccountCreatedAt = DateTime.UtcNow;
+        public User() => this.AccountCreatedAt = DateTime.UtcNow;
 
         [Key, Required]
         public int Id_User { get; set; }

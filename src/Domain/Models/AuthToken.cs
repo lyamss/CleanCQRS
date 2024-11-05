@@ -4,7 +4,7 @@ namespace Domain.Models
 {
     public class AuthToken
     {
-        public AuthToken() => EmissionDate = DateTime.UtcNow;
+        public AuthToken() => this.EmissionDate = DateTime.UtcNow;
 
         [Key, Required]
         public int Id_AuthToken { get; set; }

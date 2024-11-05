@@ -44,7 +44,7 @@ namespace Infrastructure.Persistence
 
         public void Migrate()
         {
-            Database.Migrate();
+            this.Database.Migrate();
         }
     }
 

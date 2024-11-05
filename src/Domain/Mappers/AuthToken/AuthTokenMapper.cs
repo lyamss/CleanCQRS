@@ -2,7 +2,7 @@
 
 namespace Domain.Mappers.AuthToken
 {
-    public class AuthTokenMapper
+    public sealed record class AuthTokenMapper
     {
         public GetAuthTokenQuery ToGetAuthTokenMapper(Domain.Models.AuthToken authToken)
         {

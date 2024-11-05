@@ -4,9 +4,9 @@
     {
         private ApiResponseDto(bool suc, string msg, object? objt)
         {
-            SuccesResponse = suc;
-            Message = msg;
-            Result = objt;
+            this.SuccesResponse = suc;
+            this.Message = msg;
+            this.Result = objt;
         }
         public string Message { get; }
         public bool SuccesResponse { get; }

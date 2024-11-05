@@ -8,7 +8,7 @@ using Domain.Mappers.AuthToken;
 using Domain.Commands.Authentification;
 namespace Application.Handlers.Authentification
 {
-    public class CreateUserCommandHandler(
+    public sealed class CreateUserCommandHandler(
         IRegexUtils regexUtils,
         IRepository<User> userRepositoryExtensions,
         IRepository<AuthToken> authTokenRepositoryExtensions,
