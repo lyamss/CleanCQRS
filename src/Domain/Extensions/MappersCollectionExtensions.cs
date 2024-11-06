@@ -1,6 +1,4 @@
-﻿using Domain.Mappers.AuthToken;
-using Domain.Mappers.Items;
-using Domain.Mappers.Users;
+﻿using Domain.Mappers.Users;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Domain.Extensions
@@ -9,9 +7,11 @@ namespace Domain.Extensions
     {
         public static void MappersExtentedInjec(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<UserMapper>();
-            serviceCollection.AddScoped<AuthTokenMapper>();
-            serviceCollection.AddScoped<ItemsMapper>();
+            serviceCollection.Scan(scan => scan
+            .FromAssemblyOf<UserMapper>()
+            .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Mapper")))
+            .AsSelf()
+            .WithScopedLifetime());
         }
     }
 }

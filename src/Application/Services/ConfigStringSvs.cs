@@ -1,11 +1,11 @@
 ﻿namespace Application.Services
 {
-    internal sealed class ConfigString : IConfigString
+    internal sealed class ConfigStringSvs : IConfigStringSvs
     {
         public string Test => "test";
     }
 
-    public interface IConfigString
+    public interface IConfigStringSvs
     {
         public string Test { get; }
     }

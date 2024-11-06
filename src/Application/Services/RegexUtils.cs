@@ -3,8 +3,7 @@ using Domain.Dtos.Commands.Authentification;
 using Domain.Dtos.Commands.Items;
 namespace Application.Services
 {
-    public interface IEmailDtoValidator : IValidator<string> { }
-    internal sealed class EmailDtoValidator : AbstractValidator<string>, IEmailDtoValidator
+    public sealed class EmailDtoValidator : AbstractValidator<string>, IValidator<string>
     { 
         public EmailDtoValidator() 
         { 
@@ -16,8 +15,7 @@ namespace Application.Services
         }
     }
 
-    public interface IIdDtoValidator : IValidator<int> { }
-    internal sealed class IdDtoValidator : AbstractValidator<int>, IIdDtoValidator
+    public sealed class IdDtoValidator : AbstractValidator<int>, IValidator<int>
     {
         public IdDtoValidator()
         {
@@ -28,8 +26,7 @@ namespace Application.Services
         }
     }
 
-    public interface INameDtoValidator : IValidator<string> { }
-    internal sealed class NameDtoValidator : AbstractValidator<string>, INameDtoValidator
+    public sealed class NameDtoValidator : AbstractValidator<string>, IValidator<string>
     {
         public NameDtoValidator()
         {
@@ -41,8 +38,7 @@ namespace Application.Services
         }
     }
 
-    public interface IPasswordValidator : IValidator<string> { }
-    internal sealed class PasswordValidator : AbstractValidator<string>, IPasswordValidator
+    public sealed class PasswordValidator : AbstractValidator<string>, IValidator<string>
     {
         public PasswordValidator()
         {
@@ -61,8 +57,7 @@ namespace Application.Services
                 .WithMessage("Password must contain at least one special character");
         }
     }
-    public interface IPriceValidator : IValidator<double> { }
-    internal sealed class PriceValidator : AbstractValidator<double>, IPriceValidator
+    public sealed class PriceValidator : AbstractValidator<double>, IValidator<double>
     {
         public PriceValidator()
         {
@@ -72,8 +67,7 @@ namespace Application.Services
         }
     }
 
-    public interface IDescriptionDtoValidator : IValidator<string> { }
-    internal sealed class DescriptionDtoValidator : AbstractValidator<string>, IDescriptionDtoValidator
+    public sealed class DescriptionDtoValidator : AbstractValidator<string>, IValidator<string>
     {
         public DescriptionDtoValidator()
         {
@@ -88,8 +82,7 @@ namespace Application.Services
         }
     }
 
-    public interface ICreateUserCommandValidator : IValidator<CreateUserCommand> { }
-    internal sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>, ICreateUserCommandValidator
+    public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>, IValidator<CreateUserCommand>
     {
         public CreateUserCommandValidator()
         {
@@ -97,8 +90,7 @@ namespace Application.Services
             this.RuleFor(ps => ps.Password).SetValidator(new PasswordValidator());
         }
     }
-    public interface IAddItemsCommandValidator : IValidator<AddItemsCommand> { }
-    internal sealed class AddItemsCommandValidator : AbstractValidator<AddItemsCommand>, IAddItemsCommandValidator
+    public sealed class AddItemsCommandValidator : AbstractValidator<AddItemsCommand>, IValidator<AddItemsCommand>
     {
         public AddItemsCommandValidator()
         {

@@ -1,4 +1,6 @@
-﻿using Application.Services;
+﻿using Application.Handlers.Authentification;
+using Application.Services;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 namespace Application.Extensions
 {
@@ -6,15 +8,17 @@ namespace Application.Extensions
     {
         public static void AddServicesControllers(this IServiceCollection services)
         {
-            services.AddSingleton<IConfigString, ConfigString>();
-            services.AddScoped<IEmailDtoValidator, EmailDtoValidator>();
-            services.AddScoped<IIdDtoValidator, IdDtoValidator>();
-            services.AddScoped<INameDtoValidator, NameDtoValidator>();
-            services.AddScoped<IPasswordValidator, PasswordValidator>();
-            services.AddScoped<IPriceValidator, PriceValidator>();
-            services.AddScoped<IDescriptionDtoValidator, DescriptionDtoValidator>();
-            services.AddScoped<ICreateUserCommandValidator, CreateUserCommandValidator>();
-            services.AddScoped<IAddItemsCommandValidator, AddItemsCommandValidator>();
+            services.Scan(scan => scan
+                .FromAssemblyOf<IConfigStringSvs>()
+                .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Svs")))
+                .AsImplementedInterfaces()
+                .WithSingletonLifetime());
+
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(typeof(CreateUserCommandHandler).Assembly);
+            });
+            services.AddValidatorsFromAssembly(typeof(EmailDtoValidator).Assembly);
         }
     }
 }

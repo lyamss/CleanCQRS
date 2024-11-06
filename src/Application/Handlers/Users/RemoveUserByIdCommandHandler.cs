@@ -9,12 +9,12 @@ namespace Application.Handlers.Users
     internal sealed class RemoveUserByIdCommandHandler
         (
         IRepository<User> UserRepositoryExtensions,
-        IIdDtoValidator validator
+        IdDtoValidator validator
         )
         : IRequestHandler<ByIdCommand, ApiResponseDto>
     {
         private readonly IRepository<User> _UserRepositoryExtensions = UserRepositoryExtensions;
-        private readonly IIdDtoValidator _validator = validator;
+        private readonly IdDtoValidator _validator = validator;
         public async Task<ApiResponseDto> Handle(ByIdCommand command, CancellationToken cancellationToken)
         {
             var rsl = await this._validator.ValidateAsync(command.ById, cancellationToken);

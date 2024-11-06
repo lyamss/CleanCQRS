@@ -10,12 +10,12 @@ namespace Application.Handlers.Items
         (
         IRepository<Domain.Models.Items> repositoryItemsExtensions,
         ItemsMapper itemsMapper,
-        IAddItemsCommandValidator validator
+        AddItemsCommandValidator validator
         ) : IRequestHandler<AddItemsCommand, ApiResponseDto>
     {
         private readonly IRepository<Domain.Models.Items> _repositoryItemsExtensions = repositoryItemsExtensions;
         private readonly ItemsMapper _itemsMapper = itemsMapper;
-        private readonly IAddItemsCommandValidator _validator = validator;
+        private readonly AddItemsCommandValidator _validator = validator;
         public async Task<ApiResponseDto> Handle(AddItemsCommand command, CancellationToken cancellationToken)
         {
             var regex = await this._validator.ValidateAsync(command, cancellationToken);
@@ -25,12 +25,7 @@ namespace Application.Handlers.Items
                 return ApiResponseDto.Failure(regex.Errors.Select(e => e.ErrorMessage).ToList());
             }
 
-            var NewItems = new Domain.Models.Items
-                (
-                command.Name,
-                command.Description,
-                command.Price
-                );
+            var NewItems = new Domain.Models.Items (command.Name, command.Description,command.Price);
 
             await this._repositoryItemsExtensions.AddAsync(NewItems, cancellationToken);
 

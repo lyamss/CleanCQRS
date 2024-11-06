@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Dtos.Commands.Users
 {
-    public record class UpdateUserCommand : IRequest<ApiResponseDto>
+    public record UpdateUserCommand : IRequest<ApiResponseDto>
     {
         [Required]
         public int IdUser { get; init; }

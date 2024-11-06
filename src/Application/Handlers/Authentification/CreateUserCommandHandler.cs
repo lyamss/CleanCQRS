@@ -14,7 +14,7 @@ namespace Application.Handlers.Authentification
         IUserRepository userRepository,
         UserMapper userMapper,
         AuthTokenMapper authTokenMapper,
-        ICreateUserCommandValidator validator
+        CreateUserCommandValidator validator
         )
         : IRequestHandler<CreateUserCommand, ApiResponseDto>
     {
@@ -23,7 +23,7 @@ namespace Application.Handlers.Authentification
         private readonly IRepository<AuthToken> _authTokenRepositoryExtensions = authTokenRepositoryExtensions;
         private readonly UserMapper _userMapper = userMapper;
         private readonly AuthTokenMapper _authTokenMapper = authTokenMapper;
-        private readonly ICreateUserCommandValidator _validator = validator;
+        private readonly CreateUserCommandValidator _validator = validator;
 
         public async Task<ApiResponseDto> Handle(CreateUserCommand setuserRegistrationDto, CancellationToken cancellationToken)
         {

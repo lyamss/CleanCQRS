@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Dtos.Commands
 {
-    public record class ByIdCommand : IRequest<ApiResponseDto>
+    public record ByIdCommand : IRequest<ApiResponseDto>
     {
         [Required]
         public int ById { get; private set; }

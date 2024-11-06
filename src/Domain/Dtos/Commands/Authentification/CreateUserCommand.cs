@@ -3,7 +3,7 @@ using MediatR;
 using System.ComponentModel.DataAnnotations;
 namespace Domain.Dtos.Commands.Authentification
 {
-    public record class CreateUserCommand : IRequest<ApiResponseDto>
+    public record CreateUserCommand : IRequest<ApiResponseDto>
     {
         [Required]
         [MaxLength(64)]

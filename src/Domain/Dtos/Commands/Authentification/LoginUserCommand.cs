@@ -1,6 +1,6 @@
 ﻿namespace Domain.Dtos.Commands.Authentification
 {
-    public record class LoginUserCommand : CreateUserCommand
+    public record LoginUserCommand : CreateUserCommand
     {
 
     }

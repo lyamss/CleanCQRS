@@ -2,28 +2,16 @@
 using Application.Extensions;
 using Infrastructure.Persistence;
 using DotNetEnv;
-using Application.Handlers.Authentification;
 using API.Filters;
 using Domain.Extensions;
-using FluentValidation;
 namespace API
 {
-    public class Startup(IConfiguration configuration)
+    public class Startup()
     {
-        public IConfiguration Configuration { get; } = configuration;
-
         public void ConfigureServices(IServiceCollection services) 
         {
             Env.Load();
             Env.TraversePath().Load();
-
-            services.AddMediatR(cfg =>
-            {
-                cfg.RegisterServicesFromAssembly(typeof(Startup).Assembly);
-                cfg.RegisterServicesFromAssembly(typeof(CreateUserCommandHandler).Assembly);
-            });
-
-            services.AddValidatorsFromAssemblyContaining<Startup>();
 
             services.AddHttpContextAccessor();
 

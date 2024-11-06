@@ -11,7 +11,7 @@ namespace Application.Handlers.Authentification
 {
     internal sealed class LoginUserCommandHandler
         (
-        IEmailDtoValidator regexUtils,
+        EmailDtoValidator regexUtils,
         IUserRepository userRepository,
         IRepository<AuthToken> authTokenRepositoryExtensions,
         IAuthTokenRepository authTokenRepository,
@@ -20,7 +20,7 @@ namespace Application.Handlers.Authentification
         ) 
         : IRequestHandler<LoginUserCommand, ApiResponseDto>
     {
-        private readonly IEmailDtoValidator _regexUtils = regexUtils;
+        private readonly EmailDtoValidator _regexUtils = regexUtils;
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IRepository<AuthToken> _authTokenRepositoryExtensions = authTokenRepositoryExtensions;
         private readonly IAuthTokenRepository _authTokenRepository = authTokenRepository;

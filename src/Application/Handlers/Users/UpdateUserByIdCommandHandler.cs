@@ -10,17 +10,17 @@ namespace Application.Handlers.Users
     internal sealed class UpdateUserByIdCommandHandler
         (
         IRepository<User> UserRepositoryExtensions,
-        IIdDtoValidator validator,
-        IEmailDtoValidator validatorEmail,
-        IPasswordValidator validatorPassword,
+        IdDtoValidator validator,
+        EmailDtoValidator validatorEmail,
+        PasswordValidator validatorPassword,
         UserMapper userMapper
         ) : IRequestHandler<UpdateUserCommand, ApiResponseDto>
     {
         private readonly IRepository<User> _UserRepositoryExtensions = UserRepositoryExtensions;
-        private readonly IIdDtoValidator _validator = validator;
+        private readonly IdDtoValidator _validator = validator;
         private readonly UserMapper _userMapper = userMapper;
-        private readonly IEmailDtoValidator _validatorEmail = validatorEmail;
-        private readonly IPasswordValidator _validatorPassword = validatorPassword;
+        private readonly EmailDtoValidator _validatorEmail = validatorEmail;
+        private readonly PasswordValidator _validatorPassword = validatorPassword;
         public async Task<ApiResponseDto> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
         {
             var rsl = await this._validator.ValidateAsync(command.IdUser, cancellationToken);
@@ -49,8 +49,8 @@ namespace Application.Handlers.Users
             var responseApi = new Dictionary<string, object>()
             {
                 {"User", this._userMapper.ToGetUserMapper(usr)},
-                {"EmailErrorNoChange", rslEmail.IsValid ? null : rslEmail.Errors},
-                {"PasswordErrorNoChange", rslPassword.IsValid ? null : rslPassword.Errors}
+                {"EmailErrorNoChange", rslEmail.IsValid ? null : rslEmail.Errors.Select(e => e.ErrorMessage).ToList()},
+                {"PasswordErrorNoChange", rslPassword.IsValid ? null : rslPassword.Errors.Select(e => e.ErrorMessage).ToList()}
             };
 
             return ApiResponseDto.Success("User update", responseApi);

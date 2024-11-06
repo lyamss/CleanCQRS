@@ -10,12 +10,12 @@ namespace Application.Handlers.Items
         (
         IRepository<Domain.Models.Items> repositoryItemsExtensions,
         ItemsMapper itemsMapper,
-        IIdDtoValidator validator
+        IdDtoValidator validator
         ) : IRequestHandler<ByIdCommand, ApiResponseDto>
     {
         private readonly IRepository<Domain.Models.Items> _repositoryItemsExtensions = repositoryItemsExtensions;
         private readonly ItemsMapper _itemsMapper = itemsMapper;
-        private readonly IIdDtoValidator _validator = validator;
+        private readonly IdDtoValidator _validator = validator;
         public async Task<ApiResponseDto> Handle(ByIdCommand command, CancellationToken cancellationToken)
         {
             var rsl = await this._validator.ValidateAsync(command.ById, cancellationToken);

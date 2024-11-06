@@ -14,12 +14,15 @@ namespace Infrastructure.Extensions
                 options.UseNpgsql(ConnexionDB);
             });
 
-            // repository
+
+            services.Scan(scan => scan
+                .FromAssemblyOf<IUserRepository>()
+                .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
+
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IAuthTokenRepository, AuthTokenRepository>();
             
-            // persistence
             services.AddScoped<IBackendDbContext, BackendDbContext>();
         }
     }

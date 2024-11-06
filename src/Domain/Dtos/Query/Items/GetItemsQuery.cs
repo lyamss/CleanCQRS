@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Domain.Dtos.Query.Items
 {
-    public record class GetItemsQuery : IRequest<ApiResponseDto>
+    public record GetItemsQuery : IRequest<ApiResponseDto>
     {
         public string Name { get; init; }
         public string Description { get; init; }
