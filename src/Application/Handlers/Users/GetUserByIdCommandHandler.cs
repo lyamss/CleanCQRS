@@ -25,7 +25,7 @@ namespace Application.Handlers.Users
 
             if (!rsl.IsValid)
             {
-                return ApiResponseDto.Failure(rsl.Errors.ToString());
+                return ApiResponseDto.Failure(rsl.Errors.Select(e => e.ErrorMessage).ToList());
             }
 
             User usr = await this._UserRepositoryExtensions.GetByIdAsync(command.ById, cancellationToken);

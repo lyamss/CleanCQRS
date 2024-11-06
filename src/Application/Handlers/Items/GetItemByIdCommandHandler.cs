@@ -22,7 +22,7 @@ namespace Application.Handlers.Items
 
             if(!rsl.IsValid)
             {
-                return ApiResponseDto.Failure(rsl.Errors.ToString());
+                return ApiResponseDto.Failure(rsl.Errors.Select(e => e.ErrorMessage).ToList());
             }
 
             Domain.Models.Items itm = await this._repositoryItemsExtensions.GetByIdAsync(command.ById, cancellationToken);

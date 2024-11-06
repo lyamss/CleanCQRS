@@ -6,20 +6,13 @@ namespace Domain.Dtos.Commands.Users
 {
     public record class UpdateUserCommand : IRequest<ApiResponseDto>
     {
-        public UpdateUserCommand(int IdUser, string Email, string Password)
-        {
-            this.IdUser = IdUser;
-            this.Email = Email;
-            this.Password = Password;
-        }
-
         [Required]
-        public int IdUser { get; private set; }
+        public int IdUser { get; init; }
 
         [MaxLength(64)]
-        public string? Email { get; private set; }
+        public string? Email { get; init; }
 
         [MaxLength(100)]
-        public string? Password { get; private set; }
+        public string? Password { get; init; }
     }
 }

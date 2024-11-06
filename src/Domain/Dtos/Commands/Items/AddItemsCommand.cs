@@ -6,20 +6,13 @@ namespace Domain.Dtos.Commands.Items
 {
     public record class AddItemsCommand : IRequest<ApiResponseDto>
     {
-        public AddItemsCommand(double Price, string Description, string Name) 
-        { 
-            this.Price = Price;
-            this.Description = Description;
-            this.Name = Name;
-        }
+        [Required]
+        public double Price { get; init; }
 
         [Required]
-        public double Price { get; private set; }
+        public string Description { get; init; }
 
         [Required]
-        public string Description { get; private set; }
-
-        [Required]
-        public string Name { get; private set; }
+        public string Name { get; init; }
     }
 }

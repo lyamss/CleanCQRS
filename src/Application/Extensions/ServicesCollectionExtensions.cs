@@ -15,7 +15,6 @@ namespace Application.Extensions
             services.AddScoped<IDescriptionDtoValidator, DescriptionDtoValidator>();
             services.AddScoped<ICreateUserCommandValidator, CreateUserCommandValidator>();
             services.AddScoped<IAddItemsCommandValidator, AddItemsCommandValidator>();
-            //services.AddValidatorsFromAssemblyContaining<EmailDtoValidator>();
         }
     }
 }

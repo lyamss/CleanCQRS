@@ -1,11 +1,11 @@
-﻿using Domain.Dtos.AppLayerDtos;
-using Domain.Models;
-using MediatR;
-using Infrastructure.Repository;
-using Domain.Mappers.Users;
-using Domain.Mappers.AuthToken;
+﻿using Application.Services;
+using Domain.Dtos.AppLayerDtos;
 using Domain.Dtos.Commands.Authentification;
-using Application.Services;
+using Domain.Mappers.AuthToken;
+using Domain.Mappers.Users;
+using Domain.Models;
+using Infrastructure.Repository;
+using MediatR;
 namespace Application.Handlers.Authentification
 {
     public sealed class CreateUserCommandHandler(
@@ -31,7 +31,7 @@ namespace Application.Handlers.Authentification
 
             if (!result.IsValid)
             {
-                return ApiResponseDto.Failure(result.Errors.ToString());
+                return ApiResponseDto.Failure(result.Errors.Select(e => e.ErrorMessage).ToList());
             }
 
 
@@ -44,8 +44,8 @@ namespace Application.Handlers.Authentification
 
 
             var UserWhichWillBeCreated = new User
-                (setuserRegistrationDto.Email, 
-                BCrypt.Net.BCrypt.HashPassword(setuserRegistrationDto.Password, 
+                (setuserRegistrationDto.Email,
+                BCrypt.Net.BCrypt.HashPassword(setuserRegistrationDto.Password,
                 BCrypt.Net.BCrypt.GenerateSalt(12))
                 );
 

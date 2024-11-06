@@ -12,12 +12,11 @@ namespace Domain.Models
             this.Token = token;
         }
 
-        public AuthToken(AuthToken authToken, DateTime? ExpirationDate, string token = null)
+        public void UpdateAuthToken(AuthToken authToken, DateTime? ExpirationDate, string token = null)
         {
             this.ExpirationDate = ExpirationDate ?? authToken.ExpirationDate;
             this.Token = token ?? authToken.Token;
         }
-
 
         [Key, Required]
         public int Id_AuthToken { get; private set; }

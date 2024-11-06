@@ -27,7 +27,7 @@ namespace Application.Handlers.Users
 
             if (!rsl.IsValid)
             {
-                return ApiResponseDto.Failure(rsl.Errors.ToString());
+                return ApiResponseDto.Failure(rsl.Errors.Select(e => e.ErrorMessage).ToList());
             }
 
             User usr = await this._UserRepositoryExtensions.GetByIdAsync(command.IdUser, cancellationToken);
@@ -40,12 +40,11 @@ namespace Application.Handlers.Users
             var rslEmail = await this._validatorEmail.ValidateAsync(command.Email, cancellationToken);
             var rslPassword = await this._validatorPassword.ValidateAsync(command.Password, cancellationToken);
 
-            new User(
+            usr.UpdateUser(
                 usr, rslEmail.IsValid ? command.Email : usr.Email,
                 rslPassword.IsValid ? command.Password : usr.PasswordHash);
 
             await this._UserRepositoryExtensions.SaveChangesAsync(cancellationToken);
-
 
             var responseApi = new Dictionary<string, object>()
             {

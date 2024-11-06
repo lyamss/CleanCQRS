@@ -5,9 +5,9 @@ namespace Domain.Dtos.Query.Items
 {
     public record class GetItemsQuery : IRequest<ApiResponseDto>
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public double Price { get; set; }
-        public int Id_items { get; set; }
+        public string Name { get; init; }
+        public string Description { get; init; }
+        public double Price { get; init; }
+        public int Id_items { get; init; }
     }
 }

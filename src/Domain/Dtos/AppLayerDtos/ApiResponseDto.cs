@@ -11,9 +11,7 @@
         public object Message { get; }
         public bool SuccesResponse { get; }
         public object? Result { get; }
-
         public static ApiResponseDto Success(object msg, object obj) => new(true, msg, obj);
-
         public static ApiResponseDto Failure(object msg) => new(false, msg, null);
     }
 }

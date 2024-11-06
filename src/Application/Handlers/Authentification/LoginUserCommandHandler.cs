@@ -32,13 +32,10 @@ namespace Application.Handlers.Authentification
 
             if (!success.IsValid)
             {
-                //success.Errors.Select(e => e.ErrorMessage).ToList().ToString()
-                //return ApiResponseDto.Failure(success.Errors.ToString());
-                return ApiResponseDto.Failure(success.Errors);
+                return ApiResponseDto.Failure(success.Errors.Select(e => e.ErrorMessage).ToList());
             }
 
-
-            Domain.Models.User usr = await this._userRepository.GetUserWithEmail(command.Email, cancellationToken);
+            User usr = await this._userRepository.GetUserWithEmail(command.Email, cancellationToken);
             
             if(usr is null)
             {
@@ -51,13 +48,9 @@ namespace Application.Handlers.Authentification
                 return ApiResponseDto.Failure("Email or password invalid");
             }
 
-
             AuthToken authToken = await this._authTokenRepository.GetAuthTokenWithIdUser(usr.Id_User, cancellationToken);
 
-            // TEST TODO
-
-            new AuthToken(authToken, DateTime.UtcNow.AddHours(1).ToUniversalTime(), Guid.NewGuid().ToString());
-            //authToken = new AuthToken(authToken, DateTime.UtcNow.AddHours(1).ToUniversalTime(), Guid.NewGuid().ToString());
+            authToken.UpdateAuthToken(authToken, DateTime.UtcNow.AddHours(1).ToUniversalTime(), Guid.NewGuid().ToString());
 
             await this._authTokenRepositoryExtensions.SaveChangesAsync(cancellationToken);
 
@@ -66,7 +59,6 @@ namespace Application.Handlers.Authentification
                 {"User",  this._userMapper.ToGetUserMapper(usr) },
                 {"Token Session",  this._authTokenMapper.ToGetAuthTokenMapper(authToken) },
             };
-
 
             return ApiResponseDto.Success("Login succes ! :)", result);
         }

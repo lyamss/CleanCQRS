@@ -11,7 +11,7 @@ namespace Domain.Models
             this.PasswordHash = PasswordHash;
         }
 
-        public User(User usr, string email, string passwordHash)
+        public void UpdateUser(User usr, string email, string passwordHash)
         {
             this.Email = email ?? usr.Email;
             this.PasswordHash= passwordHash ?? usr.PasswordHash;

@@ -5,18 +5,12 @@ namespace Domain.Dtos.Commands.Authentification
 {
     public record class CreateUserCommand : IRequest<ApiResponseDto>
     {
-        public CreateUserCommand(string Email, string Password)
-        {
-            this.Email = Email;
-            this.Password = Password;
-        }
-
         [Required]
         [MaxLength(64)]
-        public string Email { get; private set; }
+        public string Email { get; init; }
 
         [Required]
         [MaxLength(100)]
-        public string Password { get; private set; }
+        public string Password { get; init; }
     }
 }

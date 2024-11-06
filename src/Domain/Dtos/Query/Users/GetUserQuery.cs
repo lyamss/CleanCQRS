@@ -5,7 +5,7 @@ namespace Domain.Dtos.Query.Users
 {
     public record class GetUserQuery : IRequest<ApiResponseDto>
     {
-        public int Id_User { get; set; }
-        public string Email { get; set; }
+        public int Id_User { get; init; }
+        public string Email { get; init; }
     }
 }

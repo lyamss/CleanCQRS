@@ -22,7 +22,7 @@ namespace Application.Handlers.Items
 
             if (!regex.IsValid) 
             {
-                return ApiResponseDto.Failure(regex.Errors.ToString());
+                return ApiResponseDto.Failure(regex.Errors.Select(e => e.ErrorMessage).ToList());
             }
 
             var NewItems = new Domain.Models.Items
