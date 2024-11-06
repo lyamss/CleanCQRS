@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Domain.Dtos.AppLayerDtos;
 using MediatR;
-using Domain.Query.Users;
 using API.Filters;
+using Domain.Dtos.Query.Users;
 namespace API.Controllers.Users
 {
     [Route("api/users")]

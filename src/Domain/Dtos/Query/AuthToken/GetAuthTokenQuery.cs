@@ -1,7 +1,7 @@
 ﻿using Domain.Dtos.AppLayerDtos;
 using MediatR;
 
-namespace Domain.Query.AuthToken
+namespace Domain.Dtos.Query.AuthToken
 {
     public record class GetAuthTokenQuery : IRequest<ApiResponseDto>
     {

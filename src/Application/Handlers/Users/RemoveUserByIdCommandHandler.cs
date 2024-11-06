@@ -1,5 +1,6 @@
-﻿using Domain.Commands.Users;
+﻿using Application.Services;
 using Domain.Dtos.AppLayerDtos;
+using Domain.Dtos.Commands;
 using Domain.Models;
 using MediatR;
 
@@ -7,14 +8,23 @@ namespace Application.Handlers.Users
 {
     internal sealed class RemoveUserByIdCommandHandler
         (
-        IRepository<User> UserRepositoryExtensions
-        ) 
-        : IRequestHandler<RemoveUserByIdCommand, ApiResponseDto>
+        IRepository<User> UserRepositoryExtensions,
+        IIdDtoValidator validator
+        )
+        : IRequestHandler<ByIdCommand, ApiResponseDto>
     {
         private readonly IRepository<User> _UserRepositoryExtensions = UserRepositoryExtensions;
-        public async Task<ApiResponseDto> Handle(RemoveUserByIdCommand command, CancellationToken cancellationToken)
+        private readonly IIdDtoValidator _validator = validator;
+        public async Task<ApiResponseDto> Handle(ByIdCommand command, CancellationToken cancellationToken)
         {
-            User usr = await this._UserRepositoryExtensions.GetByIdAsync(command.UserIdToDelete, cancellationToken);
+            var rsl = await this._validator.ValidateAsync(command.ById, cancellationToken);
+
+            if (!rsl.IsValid)
+            {
+                return ApiResponseDto.Failure(rsl.Errors.ToString());
+            }
+
+            User usr = await this._UserRepositoryExtensions.GetByIdAsync(command.ById, cancellationToken);
 
             if(usr is null)
             {

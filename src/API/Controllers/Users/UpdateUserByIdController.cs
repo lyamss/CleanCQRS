@@ -1,6 +1,6 @@
 ﻿using API.Filters;
-using Domain.Commands.Users;
 using Domain.Dtos.AppLayerDtos;
+using Domain.Dtos.Commands.Users;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +17,6 @@ namespace API.Controllers.Users
         public async Task<IActionResult> UpdateUserById(
         [FromBody] UpdateUserCommand updateUserCommand, CancellationToken cancellationToken)
         {
-            Console.WriteLine("Request received");
             if (!this.ModelState.IsValid)
                 return this.BadRequest(this.ModelState);
 

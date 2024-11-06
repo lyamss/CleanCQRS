@@ -1,6 +1,6 @@
 ﻿using API.Filters;
-using Domain.Commands.Items;
 using Domain.Dtos.AppLayerDtos;
+using Domain.Dtos.Commands.Items;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

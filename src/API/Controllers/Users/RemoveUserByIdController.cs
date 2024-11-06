@@ -2,7 +2,7 @@
 using Domain.Dtos.AppLayerDtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Commands.Users;
+using Domain.Dtos.Commands;
 
 namespace API.Controllers.Users
 {
@@ -20,7 +20,7 @@ namespace API.Controllers.Users
             if (!this.ModelState.IsValid)
                 return this.BadRequest(this.ModelState);
 
-            var removeUserByIdCommand = new RemoveUserByIdCommand(idUser);
+            var removeUserByIdCommand = new ByIdCommand(idUser);
             ApiResponseDto _responseApi = await this._mediator.Send(removeUserByIdCommand, cancellationToken);
 
             return _responseApi.SuccesResponse 

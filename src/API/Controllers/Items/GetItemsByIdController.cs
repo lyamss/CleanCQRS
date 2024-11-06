@@ -1,8 +1,8 @@
 ﻿using Domain.Dtos.AppLayerDtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Commands.Items;
 using API.Filters;
+using Domain.Dtos.Commands;
 namespace API.Controllers.Items
 {
     [Route("api/items")]
@@ -18,7 +18,7 @@ namespace API.Controllers.Items
             if (!this.ModelState.IsValid)
                 return this.BadRequest(this.ModelState);
 
-            var getItemsByIdCommand = new GetItemsCommand(idUser);
+            var getItemsByIdCommand = new ByIdCommand(idUser);
             ApiResponseDto _responseApi = await this._mediator.Send(getItemsByIdCommand, cancellationToken);
 
             return _responseApi.SuccesResponse 

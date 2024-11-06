@@ -1,6 +1,6 @@
 ﻿using API.Filters;
-using Domain.Commands.Users;
 using Domain.Dtos.AppLayerDtos;
+using Domain.Dtos.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +19,7 @@ namespace API.Controllers.Users
             if (!this.ModelState.IsValid)
                 return this.BadRequest(this.ModelState);
 
-            var getUserByIdCommand = new GetUserByIdCommand(idUser);
+            var getUserByIdCommand = new ByIdCommand(idUser);
             ApiResponseDto _responseApi = await this._mediator.Send(getUserByIdCommand, cancellationToken);
 
             return _responseApi.SuccesResponse 

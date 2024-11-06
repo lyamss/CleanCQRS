@@ -1,5 +1,5 @@
-﻿using Domain.Models;
-using Domain.Query.Users;
+﻿using Domain.Dtos.Query.Users;
+using Domain.Models;
 
 namespace Domain.Mappers.Users
 {

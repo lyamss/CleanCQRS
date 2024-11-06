@@ -1,37 +1,37 @@
-﻿using Application.Services;
-using Domain.Dtos.AppLayerDtos;
+﻿using Domain.Dtos.AppLayerDtos;
 using Domain.Models;
 using MediatR;
 using Infrastructure.Repository;
 using Domain.Mappers.Users;
 using Domain.Mappers.AuthToken;
-using Domain.Commands.Authentification;
+using Domain.Dtos.Commands.Authentification;
+using Application.Services;
 namespace Application.Handlers.Authentification
 {
     public sealed class CreateUserCommandHandler(
-        IRegexUtils regexUtils,
         IRepository<User> userRepositoryExtensions,
         IRepository<AuthToken> authTokenRepositoryExtensions,
         IUserRepository userRepository,
         UserMapper userMapper,
-        AuthTokenMapper authTokenMapper
+        AuthTokenMapper authTokenMapper,
+        ICreateUserCommandValidator validator
         )
         : IRequestHandler<CreateUserCommand, ApiResponseDto>
     {
-        private readonly IRegexUtils _regexUtils = regexUtils;
         private readonly IRepository<User> _userRepositoryExtensions = userRepositoryExtensions;
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IRepository<AuthToken> _authTokenRepositoryExtensions = authTokenRepositoryExtensions;
         private readonly UserMapper _userMapper = userMapper;
         private readonly AuthTokenMapper _authTokenMapper = authTokenMapper;
+        private readonly ICreateUserCommandValidator _validator = validator;
 
         public async Task<ApiResponseDto> Handle(CreateUserCommand setuserRegistrationDto, CancellationToken cancellationToken)
         {
-            var (success, message) = this._regexUtils.CheckSetUserRegistration(setuserRegistrationDto);
+            var result = await this._validator.ValidateAsync(setuserRegistrationDto, cancellationToken);
 
-            if (!success)
+            if (!result.IsValid)
             {
-                return ApiResponseDto.Failure(message);
+                return ApiResponseDto.Failure(result.Errors.ToString());
             }
 
 
@@ -44,10 +44,10 @@ namespace Application.Handlers.Authentification
 
 
             var UserWhichWillBeCreated = new User
-            {
-                Email = setuserRegistrationDto.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(setuserRegistrationDto.Password, BCrypt.Net.BCrypt.GenerateSalt(12)),
-            };
+                (setuserRegistrationDto.Email, 
+                BCrypt.Net.BCrypt.HashPassword(setuserRegistrationDto.Password, 
+                BCrypt.Net.BCrypt.GenerateSalt(12))
+                );
 
 
             await this._userRepositoryExtensions.AddAsync(UserWhichWillBeCreated, cancellationToken);
@@ -57,11 +57,10 @@ namespace Application.Handlers.Authentification
             if (NewUser > 0)
             {
                 var NewAuthToken = new AuthToken
-                {
-                    ExpirationDate = DateTime.UtcNow.AddHours(1).ToUniversalTime(),
-                    Token = Guid.NewGuid().ToString(),
-                    IdUser = UserWhichWillBeCreated.Id_User,
-                };
+                    (DateTime.UtcNow.AddHours(1).ToUniversalTime(),
+                    Guid.NewGuid().ToString(),
+                    UserWhichWillBeCreated.Id_User
+                    );
 
 
                 await this._authTokenRepositoryExtensions.AddAsync(NewAuthToken, cancellationToken);
@@ -71,13 +70,13 @@ namespace Application.Handlers.Authentification
                 if (newAuthTokenCreate > 0)
                 {
 
-                    var result = new Dictionary<string, object>()
+                    var response = new Dictionary<string, object>()
                     {
                         {"Token Session",  this._authTokenMapper.ToGetAuthTokenMapper(NewAuthToken) },
                         {"User",  this._userMapper.ToGetUserMapper(UserWhichWillBeCreated) },
                     };
 
-                    return ApiResponseDto.Success("Your Account is created with succes ! :)", result);
+                    return ApiResponseDto.Success("Your Account is created with succes ! :)", response);
                 }
 
                 return ApiResponseDto.Failure("Failed to create authToken user");

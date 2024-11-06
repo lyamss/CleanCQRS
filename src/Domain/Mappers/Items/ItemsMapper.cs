@@ -1,4 +1,4 @@
-﻿using Domain.Query.Items;
+﻿using Domain.Dtos.Query.Items;
 
 namespace Domain.Mappers.Items
 {

@@ -1,5 +1,5 @@
-﻿using Domain.Commands.Authentification;
-using Domain.Dtos.AppLayerDtos;
+﻿using Domain.Dtos.AppLayerDtos;
+using Domain.Dtos.Commands.Authentification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

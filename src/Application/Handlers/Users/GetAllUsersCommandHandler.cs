@@ -1,7 +1,7 @@
 ﻿using Domain.Dtos.AppLayerDtos;
+using Domain.Dtos.Query.Users;
 using Domain.Mappers.Users;
 using Domain.Models;
-using Domain.Query.Users;
 using MediatR;
 namespace Application.Handlers.Users
 {

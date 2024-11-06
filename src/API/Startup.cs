@@ -5,6 +5,7 @@ using DotNetEnv;
 using Application.Handlers.Authentification;
 using API.Filters;
 using Domain.Extensions;
+using FluentValidation;
 namespace API
 {
     public class Startup(IConfiguration configuration)
@@ -21,6 +22,8 @@ namespace API
                 cfg.RegisterServicesFromAssembly(typeof(Startup).Assembly);
                 cfg.RegisterServicesFromAssembly(typeof(CreateUserCommandHandler).Assembly);
             });
+
+            services.AddValidatorsFromAssemblyContaining<Startup>();
 
             services.AddHttpContextAccessor();
 

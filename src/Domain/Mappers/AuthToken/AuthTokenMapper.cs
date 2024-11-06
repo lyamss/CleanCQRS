@@ -1,4 +1,4 @@
-﻿using Domain.Query.AuthToken;
+﻿using Domain.Dtos.Query.AuthToken;
 
 namespace Domain.Mappers.AuthToken
 {

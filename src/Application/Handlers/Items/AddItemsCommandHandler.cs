@@ -1,5 +1,6 @@
-﻿using Domain.Commands.Items;
+﻿using Application.Services;
 using Domain.Dtos.AppLayerDtos;
+using Domain.Dtos.Commands.Items;
 using Domain.Mappers.Items;
 using MediatR;
 
@@ -8,19 +9,28 @@ namespace Application.Handlers.Items
     internal sealed class AddItemsCommandHandler
         (
         IRepository<Domain.Models.Items> repositoryItemsExtensions,
-        ItemsMapper itemsMapper
+        ItemsMapper itemsMapper,
+        IAddItemsCommandValidator validator
         ) : IRequestHandler<AddItemsCommand, ApiResponseDto>
     {
         private readonly IRepository<Domain.Models.Items> _repositoryItemsExtensions = repositoryItemsExtensions;
         private readonly ItemsMapper _itemsMapper = itemsMapper;
+        private readonly IAddItemsCommandValidator _validator = validator;
         public async Task<ApiResponseDto> Handle(AddItemsCommand command, CancellationToken cancellationToken)
         {
-            var NewItems = new Domain.Models.Items
+            var regex = await this._validator.ValidateAsync(command, cancellationToken);
+
+            if (!regex.IsValid) 
             {
-                Name = command.Name,
-                Description = command.Description,
-                Price = command.Price,
-            };
+                return ApiResponseDto.Failure(regex.Errors.ToString());
+            }
+
+            var NewItems = new Domain.Models.Items
+                (
+                command.Name,
+                command.Description,
+                command.Price
+                );
 
             await this._repositoryItemsExtensions.AddAsync(NewItems, cancellationToken);
 

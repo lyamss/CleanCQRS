@@ -1,6 +1,6 @@
 ﻿using Application.Services;
-using Domain.Commands.Users;
 using Domain.Dtos.AppLayerDtos;
+using Domain.Dtos.Commands.Users;
 using Domain.Mappers.Users;
 using Domain.Models;
 using MediatR;
@@ -10,15 +10,26 @@ namespace Application.Handlers.Users
     internal sealed class UpdateUserByIdCommandHandler
         (
         IRepository<User> UserRepositoryExtensions,
-        IRegexUtils regexUtils,
+        IIdDtoValidator validator,
+        IEmailDtoValidator validatorEmail,
+        IPasswordValidator validatorPassword,
         UserMapper userMapper
         ) : IRequestHandler<UpdateUserCommand, ApiResponseDto>
     {
         private readonly IRepository<User> _UserRepositoryExtensions = UserRepositoryExtensions;
-        private readonly IRegexUtils _regexUtils = regexUtils;
+        private readonly IIdDtoValidator _validator = validator;
         private readonly UserMapper _userMapper = userMapper;
+        private readonly IEmailDtoValidator _validatorEmail = validatorEmail;
+        private readonly IPasswordValidator _validatorPassword = validatorPassword;
         public async Task<ApiResponseDto> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
         {
+            var rsl = await this._validator.ValidateAsync(command.IdUser, cancellationToken);
+
+            if (!rsl.IsValid)
+            {
+                return ApiResponseDto.Failure(rsl.Errors.ToString());
+            }
+
             User usr = await this._UserRepositoryExtensions.GetByIdAsync(command.IdUser, cancellationToken);
 
             if (usr is null)
@@ -26,12 +37,24 @@ namespace Application.Handlers.Users
                 return ApiResponseDto.Failure("User no exist");
             }
 
-            usr.Email = this._regexUtils.CheckEmail(command.Email) ? command.Email : usr.Email;
-            usr.PasswordHash = this._regexUtils.CheckPassword(command.Password) ?command.Password : usr.PasswordHash;
+            var rslEmail = await this._validatorEmail.ValidateAsync(command.Email, cancellationToken);
+            var rslPassword = await this._validatorPassword.ValidateAsync(command.Password, cancellationToken);
+
+            new User(
+                usr, rslEmail.IsValid ? command.Email : usr.Email,
+                rslPassword.IsValid ? command.Password : usr.PasswordHash);
 
             await this._UserRepositoryExtensions.SaveChangesAsync(cancellationToken);
 
-            return ApiResponseDto.Success("User update =>", this._userMapper.ToGetUserMapper(usr));
+
+            var responseApi = new Dictionary<string, object>()
+            {
+                {"User", this._userMapper.ToGetUserMapper(usr)},
+                {"EmailErrorNoChange", rslEmail.IsValid ? null : rslEmail.Errors},
+                {"PasswordErrorNoChange", rslPassword.IsValid ? null : rslPassword.Errors}
+            };
+
+            return ApiResponseDto.Success("User update", responseApi);
         }
     }
 }

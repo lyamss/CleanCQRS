@@ -1,5 +1,6 @@
-﻿using Domain.Commands.Items;
+﻿using Application.Services;
 using Domain.Dtos.AppLayerDtos;
+using Domain.Dtos.Commands;
 using Domain.Mappers.Items;
 using MediatR;
 
@@ -8,14 +9,23 @@ namespace Application.Handlers.Items
     internal sealed class GetItemByIdCommandHandler
         (
         IRepository<Domain.Models.Items> repositoryItemsExtensions,
-        ItemsMapper itemsMapper
-        ) : IRequestHandler<GetItemsCommand, ApiResponseDto>
+        ItemsMapper itemsMapper,
+        IIdDtoValidator validator
+        ) : IRequestHandler<ByIdCommand, ApiResponseDto>
     {
         private readonly IRepository<Domain.Models.Items> _repositoryItemsExtensions = repositoryItemsExtensions;
         private readonly ItemsMapper _itemsMapper = itemsMapper;
-        public async Task<ApiResponseDto> Handle(GetItemsCommand command, CancellationToken cancellationToken)
+        private readonly IIdDtoValidator _validator = validator;
+        public async Task<ApiResponseDto> Handle(ByIdCommand command, CancellationToken cancellationToken)
         {
-            Domain.Models.Items itm = await this._repositoryItemsExtensions.GetByIdAsync(command.ItemIdToGet, cancellationToken);
+            var rsl = await this._validator.ValidateAsync(command.ById, cancellationToken);
+
+            if(!rsl.IsValid)
+            {
+                return ApiResponseDto.Failure(rsl.Errors.ToString());
+            }
+
+            Domain.Models.Items itm = await this._repositoryItemsExtensions.GetByIdAsync(command.ById, cancellationToken);
 
             if (itm is null)
             {

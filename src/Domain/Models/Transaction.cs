@@ -4,16 +4,20 @@ namespace Domain.Models
 {
     public class Transaction
     {
-        public Transaction() => this.TransactionDate = DateTime.Now;
+        public Transaction(int UserId)
+        { 
+            this.TransactionDate = DateTime.Now;
+            this.UserId = UserId;
+        }
 
         [Key, Required]
-        public int Id_transaction { get; set; }
+        public int Id_transaction { get; private set; }
 
         [Required]
-        public DateTime TransactionDate { get; set; }
+        public DateTime TransactionDate { get; private set; }
 
         [Required]
-        public int UserId { get; set; }
+        public int UserId { get; private set; }
         public User User { get; set; }
 
         public double GetTotalAmount()

@@ -1,7 +1,7 @@
 ﻿using Domain.Dtos.AppLayerDtos;
 using MediatR;
 
-namespace Domain.Query.Items
+namespace Domain.Dtos.Query.Items
 {
     public record class GetItemsQuery : IRequest<ApiResponseDto>
     {

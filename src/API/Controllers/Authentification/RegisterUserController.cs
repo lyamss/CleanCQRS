@@ -1,7 +1,7 @@
 ﻿using Domain.Dtos.AppLayerDtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Commands.Authentification;
+using Domain.Dtos.Commands.Authentification;
 namespace API.Controllers.Authentification
 {
     [Route("api/auth")]

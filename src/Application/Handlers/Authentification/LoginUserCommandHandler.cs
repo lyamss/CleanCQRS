@@ -1,6 +1,6 @@
 ﻿using Application.Services;
-using Domain.Commands.Authentification;
 using Domain.Dtos.AppLayerDtos;
+using Domain.Dtos.Commands.Authentification;
 using Domain.Mappers.AuthToken;
 using Domain.Mappers.Users;
 using Domain.Models;
@@ -11,7 +11,7 @@ namespace Application.Handlers.Authentification
 {
     internal sealed class LoginUserCommandHandler
         (
-        IRegexUtils regexUtils,
+        IEmailDtoValidator regexUtils,
         IUserRepository userRepository,
         IRepository<AuthToken> authTokenRepositoryExtensions,
         IAuthTokenRepository authTokenRepository,
@@ -20,7 +20,7 @@ namespace Application.Handlers.Authentification
         ) 
         : IRequestHandler<LoginUserCommand, ApiResponseDto>
     {
-        private readonly IRegexUtils _regexUtils = regexUtils;
+        private readonly IEmailDtoValidator _regexUtils = regexUtils;
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IRepository<AuthToken> _authTokenRepositoryExtensions = authTokenRepositoryExtensions;
         private readonly IAuthTokenRepository _authTokenRepository = authTokenRepository;
@@ -28,11 +28,13 @@ namespace Application.Handlers.Authentification
         private readonly AuthTokenMapper _authTokenMapper = authTokenMapper;
         public async Task<ApiResponseDto> Handle(LoginUserCommand command, CancellationToken cancellationToken)
         {
-            var success = this._regexUtils.CheckEmail(command.Email);
+            var success = await this._regexUtils.ValidateAsync(command.Email, cancellationToken);
 
-            if (!success)
+            if (!success.IsValid)
             {
-                return ApiResponseDto.Failure("Email syntax invalid");
+                //success.Errors.Select(e => e.ErrorMessage).ToList().ToString()
+                //return ApiResponseDto.Failure(success.Errors.ToString());
+                return ApiResponseDto.Failure(success.Errors);
             }
 
 
@@ -52,13 +54,12 @@ namespace Application.Handlers.Authentification
 
             AuthToken authToken = await this._authTokenRepository.GetAuthTokenWithIdUser(usr.Id_User, cancellationToken);
 
+            // TEST TODO
 
-            authToken.ExpirationDate = DateTime.UtcNow.AddHours(1).ToUniversalTime();
-            authToken.Token = Guid.NewGuid().ToString();
-
+            new AuthToken(authToken, DateTime.UtcNow.AddHours(1).ToUniversalTime(), Guid.NewGuid().ToString());
+            //authToken = new AuthToken(authToken, DateTime.UtcNow.AddHours(1).ToUniversalTime(), Guid.NewGuid().ToString());
 
             await this._authTokenRepositoryExtensions.SaveChangesAsync(cancellationToken);
-
 
             var result = new Dictionary<string, object>()
             {
