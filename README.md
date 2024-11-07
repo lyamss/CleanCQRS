@@ -10,6 +10,10 @@ The server project is written in C# using .NET Core with ASP.NET Core.
   <img src="./assets/mediatR.png" width="50" height="50">
 </p>
 
+# Schema Cache
+
+![Schema Cache](./assets/redisD.png)
+
 # Class UML
 
 ```mermaid

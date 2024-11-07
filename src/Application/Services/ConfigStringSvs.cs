@@ -2,11 +2,20 @@
 {
     internal sealed class ConfigStringSvs : IConfigStringSvs
     {
-        public string Test => "test";
+        public string KeyInCacheGetByIdAsync => "KeyInCacheGetByIdAsync";
+
+        public string KeyInCacheGetUserWithEmail => "KeyInCacheGetUserWithEmail";
+
+        public string KeyInCacheGetAllUsers => "KeyInCacheGetAllUsers";
+
+        public string KeyInCacheGetUsersWithToken => "KeyInCacheGetUsersWithToken";
     }
 
     public interface IConfigStringSvs
     {
-        public string Test { get; }
+        public string KeyInCacheGetByIdAsync { get; }
+        public string KeyInCacheGetUserWithEmail { get; }
+        public string KeyInCacheGetAllUsers { get; }
+        public string KeyInCacheGetUsersWithToken { get; }
     }
 }

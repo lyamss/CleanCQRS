@@ -4,6 +4,7 @@ using Infrastructure.Persistence;
 using DotNetEnv;
 using API.Filters;
 using Domain.Extensions;
+using StackExchange.Redis;
 namespace API
 {
     public class Startup()
@@ -21,7 +22,7 @@ namespace API
 
             services.MappersExtentedInjec();
 
-            services.AddInfrastructure(Env.GetString("ConnexionDB"));
+            services.AddInfrastructure(Env.GetString("ConnexionDB"), Env.GetString("ConnexionRedis"));
 
             services.AddScoped<AuthorizeAuth>();
 
@@ -46,6 +47,13 @@ namespace API
             {
                 var dataContext = scope.ServiceProvider.GetRequiredService<IBackendDbContext>();
                 dataContext.Migrate();
+
+                var cacheDB = ConnectionMultiplexer.Connect(Env.GetString("ConnexionRedis"));
+                if (!cacheDB.IsConnected)
+                {
+                    Console.WriteLine("Failed to connect to CacheDB, Exiting API :/");
+                    Environment.Exit(1);
+                }
             }
 
             app.UseSwagger();

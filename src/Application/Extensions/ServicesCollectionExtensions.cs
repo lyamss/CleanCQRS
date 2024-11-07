@@ -14,6 +14,12 @@ namespace Application.Extensions
                 .AsImplementedInterfaces()
                 .WithSingletonLifetime());
 
+            services.Scan(scan => scan
+                .FromAssemblyOf<IAddOrGetCacheSvsScoped>()
+                .AddClasses(classes => classes.Where(type => type.Name.EndsWith("SvsScoped")))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
+
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(typeof(CreateUserCommandHandler).Assembly);

@@ -7,11 +7,17 @@ namespace Infrastructure.Extensions
 {
     public static class InfraCollectionExtensions
     {
-        public static void AddInfrastructure(this IServiceCollection services, string ConnexionDB)
+        public static void AddInfrastructure(this IServiceCollection services, string ConnexionDB, string ConnexionRedis)
         {
             services.AddDbContext<BackendDbContext>(options => 
             {
                 options.UseNpgsql(ConnexionDB);
+            });
+
+
+            services.AddStackExchangeRedisCache(rediosOptions =>
+            {
+                rediosOptions.Configuration = (ConnexionRedis);
             });
 
 

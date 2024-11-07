@@ -12,20 +12,22 @@ namespace Application.Handlers.Authentification
     internal sealed class LoginUserCommandHandler
         (
         EmailDtoValidator regexUtils,
-        IUserRepository userRepository,
         IRepository<AuthToken> authTokenRepositoryExtensions,
         IAuthTokenRepository authTokenRepository,
         UserMapper userMapper,
-        AuthTokenMapper authTokenMapper
-        ) 
+        AuthTokenMapper authTokenMapper,
+        IAddOrGetCacheSvsScoped addOrGetCache,
+        IUserRepository userRepository
+        )
         : IRequestHandler<LoginUserCommand, ApiResponseDto>
     {
         private readonly EmailDtoValidator _regexUtils = regexUtils;
-        private readonly IUserRepository _userRepository = userRepository;
         private readonly IRepository<AuthToken> _authTokenRepositoryExtensions = authTokenRepositoryExtensions;
         private readonly IAuthTokenRepository _authTokenRepository = authTokenRepository;
         private readonly UserMapper _userMapper = userMapper;
         private readonly AuthTokenMapper _authTokenMapper = authTokenMapper;
+        private readonly IAddOrGetCacheSvsScoped _addOrGetCacheSvsScoped = addOrGetCache;
+        private readonly IUserRepository _userRepository = userRepository;
         public async Task<ApiResponseDto> Handle(LoginUserCommand command, CancellationToken cancellationToken)
         {
             var success = await this._regexUtils.ValidateAsync(command.Email, cancellationToken);
@@ -35,7 +37,7 @@ namespace Application.Handlers.Authentification
                 return ApiResponseDto.Failure(success.Errors.Select(e => e.ErrorMessage).ToList());
             }
 
-            User usr = await this._userRepository.GetUserWithEmail(command.Email, cancellationToken);
+            User usr = await this._addOrGetCacheSvsScoped.GetUserWithEmailAsyncCache(command.Email, cancellationToken);
             
             if(usr is null)
             {
@@ -48,7 +50,9 @@ namespace Application.Handlers.Authentification
                 return ApiResponseDto.Failure("Email or password invalid");
             }
 
-            AuthToken authToken = await this._authTokenRepository.GetAuthTokenWithIdUser(usr.Id_User, cancellationToken);
+            User usrInDbCOntext = await this._userRepository.GetUserWithEmail(command.Email, cancellationToken);
+
+            AuthToken authToken = await this._authTokenRepository.GetAuthTokenWithIdUser(usrInDbCOntext.Id_User, cancellationToken);
 
             authToken.UpdateAuthToken(authToken, DateTime.UtcNow.AddHours(1).ToUniversalTime(), Guid.NewGuid().ToString());
 
@@ -56,7 +60,7 @@ namespace Application.Handlers.Authentification
 
             var result = new Dictionary<string, object>()
             {
-                {"User",  this._userMapper.ToGetUserMapper(usr) },
+                {"User",  this._userMapper.ToGetUserMapper(usrInDbCOntext) },
                 {"Token Session",  this._authTokenMapper.ToGetAuthTokenMapper(authToken) },
             };
 
