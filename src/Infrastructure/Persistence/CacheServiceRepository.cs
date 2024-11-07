@@ -28,28 +28,30 @@ namespace Infrastructure.Persistence
             await this._cache.SetStringAsync(key, json, options, cancellationToken);
         }
 
-        public async Task<T?> SetOrGetInDbOrCache<T>
+        public async Task<TDestination> SetOrGetInDbOrCache<TSource, TDestination>
         (
-        string key,
-        TimeSpan? expireDataToStock,
-        Func<CancellationToken, Task<T>> getDataFromDb,
-        CancellationToken cancellationToken
+            string key,
+            TimeSpan? expireDataToStock,
+            Func<CancellationToken, Task<TSource>> getDataFromDb,
+            Func<TSource, TDestination> mapper,
+            CancellationToken cancellationToken
         )
         {
-            var cacheValue = await this.GetInCacheAsync<T>(key, cancellationToken);
+            var cacheValue = await this.GetInCacheAsync<TDestination>(key, cancellationToken);
             if (!cacheValue.HasValue)
             {
                 var data = await getDataFromDb(cancellationToken);
 
-                if(data is not null)
+                if (data is not null)
                 {
-                    await this.SetInCacheAsync<T>(cancellationToken, key, data, expireDataToStock);
-                    return data;
+                    var mappedData = mapper(data);
+                    await this.SetInCacheAsync<TDestination>(cancellationToken, key, mappedData, expireDataToStock);
+                    return mappedData;
                 }
 
-                await this.SetInCacheAsync<T>(cancellationToken, key, default(T), expireDataToStock);
+                await this.SetInCacheAsync<TDestination>(cancellationToken, key, default(TDestination), expireDataToStock);
 
-                return default(T);
+                return default(TDestination);
             }
             return cacheValue.Value;
         }
@@ -57,10 +59,13 @@ namespace Infrastructure.Persistence
 
     public interface ICacheServiceRepository
     {
-        Task<T> SetOrGetInDbOrCache<T>(string key,
-        TimeSpan? expireDataToStock,
-        Func<CancellationToken, Task<T>> getDataFromDb,
-        CancellationToken cancellationToken
+        Task<TDestination> SetOrGetInDbOrCache<TSource, TDestination>
+        (
+            string key,
+            TimeSpan? expireDataToStock,
+            Func<CancellationToken, Task<TSource>> getDataFromDb,
+            Func<TSource, TDestination> mapper,
+            CancellationToken cancellationToken
         );
         Task<CacheValue<T>> GetInCacheAsync<T>(string key, CancellationToken cancellationToken);
         Task SetInCacheAsync<T>(CancellationToken cancellationToken, string key, T value, TimeSpan? absoluteExpirationTime = null);

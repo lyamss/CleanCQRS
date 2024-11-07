@@ -15,7 +15,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
         return await this._context.Set<TEntity>().ToListAsync(cancellationToken);
     }
 
-    public async Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await this._context.Set<TEntity>().FindAsync(id, cancellationToken);
     }
@@ -38,7 +38,7 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 
 public interface IRepository<TEntity> where TEntity : class
 {
-    Task<TEntity> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<TEntity> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task AddAsync(TEntity entity, CancellationToken cancellationToken);
     void Delete(TEntity entity);
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);

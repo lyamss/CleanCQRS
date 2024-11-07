@@ -15,7 +15,7 @@ namespace API.Controllers.Users
 
         [HttpDelete("RemoveUserById")]
         public async Task<IActionResult> RemoveUserById(
-        [FromQuery] int idUser, CancellationToken cancellationToken)
+        [FromQuery] Guid idUser, CancellationToken cancellationToken)
         {
             if (!this.ModelState.IsValid)
                 return this.BadRequest(this.ModelState);

@@ -13,7 +13,7 @@ namespace API.Controllers.Items
         private readonly IMediator _mediator = mediator;
 
         [HttpGet("GetItemsById")]
-        public async Task<IActionResult> GetItemsById([FromQuery] int idUser, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetItemsById([FromQuery] Guid idUser, CancellationToken cancellationToken)
         {
             if (!this.ModelState.IsValid)
                 return this.BadRequest(this.ModelState);

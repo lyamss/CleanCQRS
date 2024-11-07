@@ -7,9 +7,9 @@ namespace Domain.Dtos.Commands
     public record ByIdCommand : IRequest<ApiResponseDto>
     {
         [Required]
-        public int ById { get; private set; }
+        public Guid ById { get; private set; }
 
-        public ByIdCommand(int byId)
+        public ByIdCommand(Guid byId)
         {
             this.ById = byId;
         }

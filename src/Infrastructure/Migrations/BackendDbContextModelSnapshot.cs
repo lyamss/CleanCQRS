@@ -24,11 +24,9 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Models.AuthToken", b =>
                 {
-                    b.Property<int>("Id_AuthToken")
+                    b.Property<Guid>("Id_AuthToken")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id_AuthToken"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("EmissionDate")
                         .HasColumnType("timestamp with time zone");
@@ -36,8 +34,8 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("IdUser")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("IdUser")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Token")
                         .IsRequired()
@@ -52,11 +50,12 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Models.Items", b =>
                 {
-                    b.Property<int>("Id_items")
+                    b.Property<Guid>("Id_items")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("uuid");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id_items"));
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -76,17 +75,15 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Models.Transaction", b =>
                 {
-                    b.Property<int>("Id_transaction")
+                    b.Property<Guid>("Id_transaction")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id_transaction"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id_transaction");
 
@@ -97,11 +94,11 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Models.TransactionItems", b =>
                 {
-                    b.Property<int>("TransactionId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("ItemsId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("ItemsId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("TransactionId", "ItemsId");
 
@@ -112,11 +109,9 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Models.User", b =>
                 {
-                    b.Property<int>("Id_User")
+                    b.Property<Guid>("Id_User")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id_User"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("AccountCreatedAt")
                         .HasColumnType("timestamp with time zone");

@@ -2,9 +2,9 @@
 {
     public class TransactionItems
     {
-        public int TransactionId { get; set; }
+        public Guid TransactionId { get; set; }
         public Transaction Transaction { get; set; }
-        public int ItemsId { get; set; }
+        public Guid ItemsId { get; set; }
         public Items Items { get; set; }
     }
 }

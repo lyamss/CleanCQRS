@@ -25,7 +25,7 @@ namespace Application.Handlers.Items
                 return ApiResponseDto.Failure(regex.Errors.Select(e => e.ErrorMessage).ToList());
             }
 
-            var NewItems = new Domain.Models.Items (command.Name, command.Description,command.Price);
+            var NewItems = new Domain.Models.Items (Guid.NewGuid(), command.Name, command.Description,command.Price, DateTime.UtcNow);
 
             await this._repositoryItemsExtensions.AddAsync(NewItems, cancellationToken);
 

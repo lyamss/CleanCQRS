@@ -4,22 +4,27 @@ namespace Domain.Models
 {
     public class AuthToken
     {
-        public AuthToken(DateTime ExpirationDate, string token, int IdUser)
+        public AuthToken()
         {
-            this.EmissionDate = DateTime.UtcNow;
+        }
+
+        public AuthToken(Guid id_AuthToken, DateTime EmissionDate, DateTime ExpirationDate, string token, Guid IdUser)
+        {
+            this.Id_AuthToken = id_AuthToken;
+            this.EmissionDate = EmissionDate;
             this.ExpirationDate = ExpirationDate;
             this.IdUser = IdUser;
             this.Token = token;
         }
 
-        public void UpdateAuthToken(AuthToken authToken, DateTime? ExpirationDate, string token = null)
+        public void UpdateAuthToken(AuthToken authToken, DateTime? ExpirationDate, string token)
         {
             this.ExpirationDate = ExpirationDate ?? authToken.ExpirationDate;
             this.Token = token ?? authToken.Token;
         }
 
         [Key, Required]
-        public int Id_AuthToken { get; private set; }
+        public Guid Id_AuthToken { get; private set; }
 
         [Required]
         public DateTime EmissionDate { get; private set; }
@@ -31,7 +36,7 @@ namespace Domain.Models
         public string Token { get; private set; }
 
         [Required]
-        public int IdUser { get; private set; }
+        public Guid IdUser { get; private set; }
 
         public User User { get; set; }
     }

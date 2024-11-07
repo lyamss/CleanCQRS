@@ -14,7 +14,7 @@ namespace API.Controllers.Users
         private readonly IMediator _mediator = mediator;
 
         [HttpGet("GetUserById")]
-        public async Task<IActionResult> GetUserById([FromQuery] int idUser, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetUserById([FromQuery] Guid idUser, CancellationToken cancellationToken)
         {
             if (!this.ModelState.IsValid)
                 return this.BadRequest(this.ModelState);

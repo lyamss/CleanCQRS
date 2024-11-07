@@ -7,7 +7,7 @@ namespace Domain.Dtos.Commands.Users
     public record UpdateUserCommand : IRequest<ApiResponseDto>
     {
         [Required]
-        public int IdUser { get; init; }
+        public Guid IdUser { get; init; }
 
         [MaxLength(64)]
         public string? Email { get; init; }

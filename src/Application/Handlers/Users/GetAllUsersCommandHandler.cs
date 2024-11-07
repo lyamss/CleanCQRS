@@ -23,28 +23,21 @@ namespace Application.Handlers.Users
 
         public async Task<ApiResponseDto> Handle(GetUserQuery getUserCommand, CancellationToken cancellationToken)
         {
-            CacheValue<List<GetUserQuery>>  dataInCache = await this._cacheService.GetInCacheAsync<List<GetUserQuery>>
-                (_configStringSvs.KeyInCacheGetAllUsers, cancellationToken);
+            var users = await this._cacheService.SetOrGetInDbOrCache
+            (
+                this._configStringSvs.KeyInCacheGetAllUsers,
+                TimeSpan.FromSeconds(30),
+                cancellationToken => this._UserRepositoryExtensions.GetAllAsync(cancellationToken),
+                users => users.Select(user => this._userMapper.ToGetUserMapper(user)).ToList(),
+                cancellationToken
+            );
 
-            if (!dataInCache.HasValue)
-            {
-                IEnumerable<User> data = await this._UserRepositoryExtensions.GetAllAsync(cancellationToken);
-
-                if(data is not null)
-                {
-                    var mappData = data.Select(usr => this._userMapper.ToGetUserMapper(usr)).ToList();
-
-                    await this._cacheService.SetInCacheAsync<List<GetUserQuery>>(cancellationToken, _configStringSvs.KeyInCacheGetAllUsers, mappData, TimeSpan.FromSeconds(30));
-
-                    return ApiResponseDto.Success("User(s) found", mappData);
-                }
-
-                await this._cacheService.SetInCacheAsync<List<GetUserQuery>>(cancellationToken, _configStringSvs.KeyInCacheGetAllUsers, default(List<GetUserQuery>), TimeSpan.FromSeconds(30));
-
-                return ApiResponseDto.Failure("No Users in DB");
+            if (!users.Any()) 
+            { 
+                return ApiResponseDto.Success("no users in database", users);
             }
 
-            return ApiResponseDto.Success("User(s) found", dataInCache.Value);
+            return ApiResponseDto.Success("User(s) found", users);
         }
     }
 }

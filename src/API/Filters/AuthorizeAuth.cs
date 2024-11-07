@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 using Application.Services;
+using Domain.Dtos.Query.AuthToken;
 
 namespace API.Filters
 {
     internal sealed class AuthorizeAuth
         (
-        IAddOrGetCacheSvsScoped authTokenRepository
+        IAddOrGetCacheSvsScoped addOrGetCacheSvsScoped
         )
         : IAsyncAuthorizationFilter
     {
-        private readonly IAddOrGetCacheSvsScoped _authTokenRepository = authTokenRepository;
+        private readonly IAddOrGetCacheSvsScoped _addOrGetCacheSvsScoped = addOrGetCacheSvsScoped;
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             string jwt = null;
@@ -30,7 +30,7 @@ namespace API.Filters
                 return;
             }
 
-            AuthToken authToken = await this._authTokenRepository.GetAuthTokenWithTokenAsyncCache(jwt, context.HttpContext.RequestAborted);
+            GetAuthTokenQuery authToken = await this._addOrGetCacheSvsScoped.GetAuthTokenWithTokenAsyncCache(jwt, context.HttpContext.RequestAborted);
 
             if (authToken is null || authToken.ExpirationDate < DateTime.UtcNow) 
             {

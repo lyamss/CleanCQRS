@@ -8,6 +8,8 @@ namespace Domain.Dtos.Query.Items
         public string Name { get; init; }
         public string Description { get; init; }
         public double Price { get; init; }
-        public int Id_items { get; init; }
+        public Guid Id_items { get; init; }
+
+        public DateTime CreatedAt { get; init; }
     }
 }

@@ -1,29 +1,29 @@
 ﻿using Application.Services;
 using Domain.Dtos.AppLayerDtos;
 using Domain.Dtos.Commands.Authentification;
+using Domain.Dtos.Query.Users;
 using Domain.Mappers.AuthToken;
 using Domain.Mappers.Users;
 using Domain.Models;
-using Infrastructure.Repository;
 using MediatR;
 namespace Application.Handlers.Authentification
 {
     public sealed class CreateUserCommandHandler(
         IRepository<User> userRepositoryExtensions,
         IRepository<AuthToken> authTokenRepositoryExtensions,
-        IUserRepository userRepository,
         UserMapper userMapper,
         AuthTokenMapper authTokenMapper,
-        CreateUserCommandValidator validator
+        CreateUserCommandValidator validator,
+        IAddOrGetCacheSvsScoped addOrGetCache
         )
         : IRequestHandler<CreateUserCommand, ApiResponseDto>
     {
         private readonly IRepository<User> _userRepositoryExtensions = userRepositoryExtensions;
-        private readonly IUserRepository _userRepository = userRepository;
         private readonly IRepository<AuthToken> _authTokenRepositoryExtensions = authTokenRepositoryExtensions;
         private readonly UserMapper _userMapper = userMapper;
         private readonly AuthTokenMapper _authTokenMapper = authTokenMapper;
         private readonly CreateUserCommandValidator _validator = validator;
+        private readonly IAddOrGetCacheSvsScoped _addOrGetCacheSvsScoped = addOrGetCache;
 
         public async Task<ApiResponseDto> Handle(CreateUserCommand setuserRegistrationDto, CancellationToken cancellationToken)
         {
@@ -35,7 +35,7 @@ namespace Application.Handlers.Authentification
             }
 
 
-            User userI = await this._userRepository.GetUserWithEmail(setuserRegistrationDto.Email, cancellationToken);
+            GetUserQuery2 userI = await this._addOrGetCacheSvsScoped.GetUserWithEmailAsyncCache(setuserRegistrationDto.Email, cancellationToken);
 
             if (userI is not null)
             {
@@ -44,9 +44,12 @@ namespace Application.Handlers.Authentification
 
 
             var UserWhichWillBeCreated = new User
-                (setuserRegistrationDto.Email,
+                (
+                Guid.NewGuid(),
+                setuserRegistrationDto.Email,
                 BCrypt.Net.BCrypt.HashPassword(setuserRegistrationDto.Password,
-                BCrypt.Net.BCrypt.GenerateSalt(12))
+                BCrypt.Net.BCrypt.GenerateSalt(12)),
+                DateTime.UtcNow
                 );
 
 
@@ -57,7 +60,10 @@ namespace Application.Handlers.Authentification
             if (NewUser > 0)
             {
                 var NewAuthToken = new AuthToken
-                    (DateTime.UtcNow.AddHours(1).ToUniversalTime(),
+                    (
+                    Guid.NewGuid(),
+                    DateTime.UtcNow,
+                    DateTime.UtcNow.AddHours(1).ToUniversalTime(),
                     Guid.NewGuid().ToString(),
                     UserWhichWillBeCreated.Id_User
                     );

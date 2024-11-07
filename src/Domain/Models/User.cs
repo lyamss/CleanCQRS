@@ -4,9 +4,12 @@ namespace Domain.Models
 {
     public class User
     {
-        public User(string email, string PasswordHash)
+        public User () { }
+
+        public User(Guid UserId, string email, string PasswordHash, DateTime AccountCreatedAt)
         {
-            this.AccountCreatedAt = DateTime.UtcNow;
+            this.Id_User = UserId;
+            this.AccountCreatedAt = AccountCreatedAt;
             this.Email = email;
             this.PasswordHash = PasswordHash;
         }
@@ -18,7 +21,7 @@ namespace Domain.Models
         }
 
         [Key, Required]
-        public int Id_User { get; private set; }
+        public Guid Id_User { get; private set; }
 
         [Required]
         [MaxLength(64)]

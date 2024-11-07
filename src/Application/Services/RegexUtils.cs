@@ -15,14 +15,11 @@ namespace Application.Services
         }
     }
 
-    public sealed class IdDtoValidator : AbstractValidator<int>, IValidator<int>
+    public class IdDtoValidator : AbstractValidator<Guid>
     {
         public IdDtoValidator()
         {
-            this.RuleFor(id => id)
-                .NotEmpty()
-                .WithMessage("Id no valid")
-                .GreaterThanOrEqualTo(0).WithMessage("Id must be positive");
+            this.RuleFor(x => x).NotEmpty();
         }
     }
 
