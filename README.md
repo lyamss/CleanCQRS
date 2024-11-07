@@ -14,24 +14,36 @@ The server project is written in C# using .NET Core with ASP.NET Core.
 
 ![Schema Cache](./assets/redisD.png)
 
-# Schema structureFolder
-
-![Schema structureFolder](./assets/structure.png)
-
-# Schema TestPostman
-
-![Schema TestPostman](./assets/PostmanTest.png)
-
 # Class UML
+
 ```mermaid
 classDiagram
     class User {
-        -Id_User: int
-        -Pseudo string
-        -PasswordHash: string
-        -AccountCreatedAt: DateTime
-        +User()
+        + email: string
+        + password: string
     }
+
+    class Transaction {
+      + transactionDate: DateTime
+      + getTotalAmount()
+    }
+
+    class Items {
+      + name: string
+      + description: string
+      + price: double
+    }
+
+    class AuthToken {
+      + emissionDate: DateTime
+      + expirationDate: DateTime
+      + Token: string
+    }
+
+
+User "1" -- "*" AuthToken
+User "1" -- "*" Transaction
+Transaction "*" -- "*" Items
 ```
 
 # To start API

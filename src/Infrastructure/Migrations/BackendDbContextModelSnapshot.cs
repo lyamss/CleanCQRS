@@ -22,30 +22,171 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Models.AuthToken", b =>
+                {
+                    b.Property<Guid>("Id_AuthToken")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("EmissionDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("IdUser")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id_AuthToken");
+
+                    b.HasIndex("IdUser");
+
+                    b.ToTable("AuthTokens");
+                });
+
+            modelBuilder.Entity("Domain.Models.Items", b =>
+                {
+                    b.Property<Guid>("Id_items")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id_items");
+
+                    b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("Domain.Models.Transaction", b =>
+                {
+                    b.Property<Guid>("Id_transaction")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id_transaction");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("Domain.Models.TransactionItems", b =>
+                {
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ItemsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("TransactionId", "ItemsId");
+
+                    b.HasIndex("ItemsId");
+
+                    b.ToTable("TransactionItems");
+                });
+
             modelBuilder.Entity("Domain.Models.User", b =>
                 {
-                    b.Property<int>("Id_User")
+                    b.Property<Guid>("Id_User")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id_User"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("AccountCreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)");
 
-                    b.Property<string>("Pseudo")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
-
                     b.HasKey("Id_User");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Domain.Models.AuthToken", b =>
+                {
+                    b.HasOne("Domain.Models.User", "User")
+                        .WithMany("AuthToken")
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Models.Transaction", b =>
+                {
+                    b.HasOne("Domain.Models.User", "User")
+                        .WithMany("Transaction")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Models.TransactionItems", b =>
+                {
+                    b.HasOne("Domain.Models.Items", "Items")
+                        .WithMany("TransactionItems")
+                        .HasForeignKey("ItemsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Models.Transaction", "Transaction")
+                        .WithMany("TransactionItems")
+                        .HasForeignKey("TransactionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Items");
+
+                    b.Navigation("Transaction");
+                });
+
+            modelBuilder.Entity("Domain.Models.Items", b =>
+                {
+                    b.Navigation("TransactionItems");
+                });
+
+            modelBuilder.Entity("Domain.Models.Transaction", b =>
+                {
+                    b.Navigation("TransactionItems");
+                });
+
+            modelBuilder.Entity("Domain.Models.User", b =>
+                {
+                    b.Navigation("AuthToken");
+
+                    b.Navigation("Transaction");
                 });
 #pragma warning restore 612, 618
         }

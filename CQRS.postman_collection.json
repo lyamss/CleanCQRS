@@ -1,0 +1,333 @@
+{
+	"info": {
+		"_postman_id": "effde585-917f-4969-8f10-9b0509d423b1",
+		"name": "CQRS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38736257"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3178/api/users/GetAllUsers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SecretTokenAuth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3178/api/users/GetAllUsers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"users",
+						"GetAllUsers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/users/UpdateUserById",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SecretTokenAuth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"idUser\": 9,\r\n  \"email\": \"testo@gmail.com\",\r\n  \"password\": \"123soleil@\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3178/api/users/UpdateUserById",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"users",
+						"UpdateUserById"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/auth/Register",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "665620b3-2c6b-4afa-96e8-41022b2b6508",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"dimitriVegas@gmail.com\",\r\n  \"password\": \"123Toto123@\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3178/api/auth/Register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"auth",
+						"Register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/auth/Login",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"ratata@gmail.com\",\r\n  \"password\": \"123toto123@\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3178/api/auth/Login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"auth",
+						"Login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/items/AddItems",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SecretTokenAuth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"price\": \"10.90\",\r\n  \"description\": \"<script>alert('description')</script>\",\r\n  \"name\": \"<script>alert('name')</script>\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3178/api/items/AddItems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"items",
+						"AddItems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/users/RemoveUserById?idUser=5",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SecretTokenAuth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"idUser\": 0,\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3178/api/users/RemoveUserById?idUser=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"users",
+						"RemoveUserById"
+					],
+					"query": [
+						{
+							"key": "idUser",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/users/GetUserById?idUser=6",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SecretTokenAuth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3178/api/users/GetUserById?idUser=-4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"users",
+						"GetUserById"
+					],
+					"query": [
+						{
+							"key": "idUser",
+							"value": "-4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3178/api/items/GetItemsById?idUser=6",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SecretTokenAuth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3178/api/items/GetItemsById?idUser=6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"items",
+						"GetItemsById"
+					],
+					"query": [
+						{
+							"key": "idUser",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

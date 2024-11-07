@@ -1,37 +1,99 @@
-﻿using System.Text.RegularExpressions;
-using Domain.Commands.Users;
+﻿using FluentValidation;
+using Domain.Dtos.Commands.Authentification;
+using Domain.Dtos.Commands.Items;
 namespace Application.Services
 {
-    public class RegexUtils : IRegexUtils
+    public sealed class EmailDtoValidator : AbstractValidator<string>, IValidator<string>
+    { 
+        public EmailDtoValidator() 
+        { 
+            this.RuleFor(email => email)
+                .NotEmpty()
+                .WithMessage("Email syntax no valide")
+                .EmailAddress()
+                .WithMessage("Email syntax no valide");
+        }
+    }
+
+    public class IdDtoValidator : AbstractValidator<Guid>
     {
-        private readonly Regex PseudoRegex = new(@"^[a-zA-Z0-9_]{1,15}$", RegexOptions.Compiled);
-        private readonly Regex PasswordRegex = new(@"^.{8,100}$", RegexOptions.Compiled);
-
-        public bool CheckPseudo(string Pseudo)
+        public IdDtoValidator()
         {
-            if (string.IsNullOrEmpty(Pseudo))
-                return false;
-
-            if (!PseudoRegex.IsMatch(Pseudo))
-                return false;
-
-            return true;
+            this.RuleFor(x => x).NotEmpty();
         }
+    }
 
-        public (bool, string) CheckSetUserRegistration(CreateUserCommand userRegistrationDto)
+    public sealed class NameDtoValidator : AbstractValidator<string>, IValidator<string>
+    {
+        public NameDtoValidator()
         {
-            if (!CheckPseudo(userRegistrationDto.Pseudo)) return (false, "Invalid pseudo or this length");
-
-            if (!CheckPassword(userRegistrationDto.Password)) return (false, "Invalid Password Minimum 8 characters and 100 max");
-
-            return (true, "All Regex passed :)");
+            this.RuleFor(name => name)
+                .NotEmpty()
+                .WithMessage("Name cannot be empty")
+                .Matches(@"^[a-zA-Z]+$")
+                .WithMessage("The name can only contain letters and without spaces");
         }
-      
-        public bool CheckPassword(string password)
+    }
+
+    public sealed class PasswordValidator : AbstractValidator<string>, IValidator<string>
+    {
+        public PasswordValidator()
         {
-            if (string.IsNullOrEmpty(password.ToString())) return false;
-            if(!PasswordRegex.IsMatch(password.ToString())) return false;
-            return true;
+            this.RuleFor(password => password)
+                .NotEmpty()
+                .WithMessage("Password cannot be empty")
+                .MinimumLength(8)
+                .WithMessage("Password must contain at least 8 characters")
+                .Matches(@"[A-Z]")
+                .WithMessage("Password must contain at least one capital letter")
+                .Matches(@"[a-z]")
+                .WithMessage("Password must contain at least one lowercase letter")
+                .Matches(@"[0-9]")
+                .WithMessage("Password must contain at least one number")
+                .Matches(@"[\W]")
+                .WithMessage("Password must contain at least one special character");
+        }
+    }
+    public sealed class PriceValidator : AbstractValidator<double>, IValidator<double>
+    {
+        public PriceValidator()
+        {
+            this.RuleFor(price => price)
+            .GreaterThan(0).WithMessage("Price must be greater than 0")
+            .LessThanOrEqualTo(10000).WithMessage("The price cannot exceed 10,000");
+        }
+    }
+
+    public sealed class DescriptionDtoValidator : AbstractValidator<string>, IValidator<string>
+    {
+        public DescriptionDtoValidator()
+        {
+            this.RuleFor(description => description).MaximumLength(100)
+                .WithMessage("Description cannot exceed 100 characters")
+                .Must(this.NotContainScriptTags)
+                .WithMessage("Description cannot contain script tags");
+        }
+        private bool NotContainScriptTags(string description)
+        {
+            return !description.Contains("<script>", StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
+    public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>, IValidator<CreateUserCommand>
+    {
+        public CreateUserCommandValidator()
+        {
+            this.RuleFor(em => em.Email).SetValidator(new EmailDtoValidator());
+            this.RuleFor(ps => ps.Password).SetValidator(new PasswordValidator());
+        }
+    }
+    public sealed class AddItemsCommandValidator : AbstractValidator<AddItemsCommand>, IValidator<AddItemsCommand>
+    {
+        public AddItemsCommandValidator()
+        {
+            this.RuleFor(pr => pr.Price).SetValidator(new PriceValidator());
+            this.RuleFor(dr => dr.Description).SetValidator(new DescriptionDtoValidator());
+            this.RuleFor(nm => nm.Name).SetValidator(new  NameDtoValidator());
         }
     }
 }

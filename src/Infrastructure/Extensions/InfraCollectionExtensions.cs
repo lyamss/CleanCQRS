@@ -1,7 +1,6 @@
 ﻿using Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using Infrastructure.Repository.User;
 using Infrastructure.Repository;
 
 namespace Infrastructure.Extensions
@@ -15,18 +14,22 @@ namespace Infrastructure.Extensions
                 options.UseNpgsql(ConnexionDB);
             });
 
+
             services.AddStackExchangeRedisCache(rediosOptions =>
             {
                 rediosOptions.Configuration = (ConnexionRedis);
             });
 
-            // repository
+
+            services.Scan(scan => scan
+                .FromAssemblyOf<IUserRepository>()
+                .AddClasses(classes => classes.Where(type => type.Name.EndsWith("Repository")))
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
+
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped<IUserRepository, UserRepository>();
             
-            // persistence
             services.AddScoped<IBackendDbContext, BackendDbContext>();
-            services.AddTransient<ICacheService, CacheService>();
         }
     }
 }
