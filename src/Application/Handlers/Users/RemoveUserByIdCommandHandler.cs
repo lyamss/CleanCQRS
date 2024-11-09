@@ -1,6 +1,6 @@
 ﻿using Application.Services;
 using Domain.Dtos.AppLayerDtos;
-using Domain.Dtos.Commands;
+using Domain.Dtos.Commands.Users;
 using Domain.Models;
 using MediatR;
 
@@ -11,11 +11,11 @@ namespace Application.Handlers.Users
         IRepository<User> UserRepositoryExtensions,
         IdDtoValidator validator
         )
-        : IRequestHandler<ByIdCommand, ApiResponseDto>
+        : IRequestHandler<RemoveUserByIdCommand, ApiResponseDto>
     {
         private readonly IRepository<User> _UserRepositoryExtensions = UserRepositoryExtensions;
         private readonly IdDtoValidator _validator = validator;
-        public async Task<ApiResponseDto> Handle(ByIdCommand command, CancellationToken cancellationToken)
+        public async Task<ApiResponseDto> Handle(RemoveUserByIdCommand command, CancellationToken cancellationToken)
         {
             var rsl = await this._validator.ValidateAsync(command.ById, cancellationToken);
 

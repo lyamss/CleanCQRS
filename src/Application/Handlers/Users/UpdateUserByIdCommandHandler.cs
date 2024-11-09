@@ -42,7 +42,7 @@ namespace Application.Handlers.Users
 
             usr.UpdateUser(
                 usr, rslEmail.IsValid ? command.Email : usr.Email,
-                rslPassword.IsValid ? command.Password : usr.PasswordHash);
+                rslPassword.IsValid ? BCrypt.Net.BCrypt.HashPassword(command.Password, BCrypt.Net.BCrypt.GenerateSalt(12)) : usr.PasswordHash);
 
             await this._UserRepositoryExtensions.SaveChangesAsync(cancellationToken);
 
