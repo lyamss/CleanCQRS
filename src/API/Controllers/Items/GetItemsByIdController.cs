@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using API.Filters;
-using Domain.Dtos.Commands;
+using Domain.Dtos.Commands.Items;
 namespace API.Controllers.Items
 {
     [Route("api/items")]
@@ -13,13 +13,12 @@ namespace API.Controllers.Items
         private readonly IMediator _mediator = mediator;
 
         [HttpGet("GetItemsById")]
-        public async Task<IActionResult> GetItemsById([FromQuery] Guid idUser, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetItemsById([FromQuery] GetItemByIdCommand idItem, CancellationToken cancellationToken)
         {
             if (!this.ModelState.IsValid)
                 return this.BadRequest(this.ModelState);
 
-            var getItemsByIdCommand = new ByIdCommand(idUser);
-            ApiResponseDto _responseApi = await this._mediator.Send(getItemsByIdCommand, cancellationToken);
+            ApiResponseDto _responseApi = await this._mediator.Send(idItem, cancellationToken);
 
             return _responseApi.SuccesResponse 
                 ? this.Ok(_responseApi) 

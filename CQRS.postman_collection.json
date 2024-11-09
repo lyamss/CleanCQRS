@@ -50,6 +50,49 @@
 			"response": []
 		},
 		{
+			"name": "http://localhost:3178/api/items/GetAllItems",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{SecretTokenAuth}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3178/api/items/GetAllItems",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3178",
+					"path": [
+						"api",
+						"items",
+						"GetAllItems"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "http://localhost:3178/api/users/UpdateUserById",
 			"request": {
 				"auth": {
@@ -66,7 +109,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"idUser\": 9,\r\n  \"email\": \"testo@gmail.com\",\r\n  \"password\": \"123soleil@\"\r\n}",
+					"raw": "{\r\n  \"idUser\": \"c12da3e9-2123-4233-8463-5a6a587eddae\",\r\n  \"email\": \"Toto@Totoses.com\",\r\n  \"password\": \"123soleil@\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -106,7 +149,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"dimitriVegas@gmail.com\",\r\n  \"password\": \"123Toto123@\"\r\n}",
+					"raw": "{\r\n  \"email\": \"Toto11234@toto.com\",\r\n  \"password\": \"123Toto123@\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -146,7 +189,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"ratata@gmail.com\",\r\n  \"password\": \"123toto123@\"\r\n}",
+					"raw": "{\r\n  \"email\": \"Toto@Totoses.com\",\r\n  \"password\": \"123Soleil@\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -186,7 +229,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"price\": \"10.90\",\r\n  \"description\": \"<script>alert('description')</script>\",\r\n  \"name\": \"<script>alert('name')</script>\"\r\n}",
+					"raw": "{\r\n  \"price\": \"10.90\",\r\n  \"description\": \"coucouLolo\",\r\n  \"name\": \"brochette\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -234,7 +277,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3178/api/users/RemoveUserById?idUser=5",
+					"raw": "http://localhost:3178/api/users/RemoveUserById?ById=0c74619a-b113-4ada-9003-70709b04b3c9",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -247,8 +290,8 @@
 					],
 					"query": [
 						{
-							"key": "idUser",
-							"value": "5"
+							"key": "ById",
+							"value": "0c74619a-b113-4ada-9003-70709b04b3c9"
 						}
 					]
 				}
@@ -271,7 +314,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3178/api/users/GetUserById?idUser=-4",
+					"raw": "http://localhost:3178/api/users/GetUserById?ById=c12da3e9-2123-4233-8463-5a6a587eddae",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -284,8 +327,8 @@
 					],
 					"query": [
 						{
-							"key": "idUser",
-							"value": "-4"
+							"key": "ById",
+							"value": "c12da3e9-2123-4233-8463-5a6a587eddae"
 						}
 					]
 				}
@@ -293,7 +336,7 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:3178/api/items/GetItemsById?idUser=6",
+			"name": "http://localhost:3178/api/items/GetItemsById?idItem=582fde7b-4ee8-4019-a4f0-73264476e7b4",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -308,7 +351,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3178/api/items/GetItemsById?idUser=6",
+					"raw": "http://localhost:3178/api/items/GetItemsById?ById=837302a0-171c-4a89-a77a-1c4fa22709c5",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -321,8 +364,8 @@
 					],
 					"query": [
 						{
-							"key": "idUser",
-							"value": "6"
+							"key": "ById",
+							"value": "837302a0-171c-4a89-a77a-1c4fa22709c5"
 						}
 					]
 				}

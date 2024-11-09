@@ -1,6 +1,6 @@
 ﻿using Application.Services;
 using Domain.Dtos.AppLayerDtos;
-using Domain.Dtos.Commands;
+using Domain.Dtos.Commands.Users;
 using Domain.Dtos.Query.Users;
 using MediatR;
 
@@ -11,12 +11,12 @@ namespace Application.Handlers.Users
         IdDtoValidator validator,
         IAddOrGetCacheSvsScoped addOrGetCache
         )
-        : IRequestHandler<ByIdCommand, ApiResponseDto>
+        : IRequestHandler<GetUserByIdCommand, ApiResponseDto>
     {
         private readonly IdDtoValidator _validator = validator;
         private readonly IAddOrGetCacheSvsScoped _addOrGetCacheSvsScoped = addOrGetCache;
 
-        public async Task<ApiResponseDto> Handle(ByIdCommand command, CancellationToken cancellationToken)
+        public async Task<ApiResponseDto> Handle(GetUserByIdCommand command, CancellationToken cancellationToken)
         {
             var rsl = await this._validator.ValidateAsync(command.ById, cancellationToken);
 

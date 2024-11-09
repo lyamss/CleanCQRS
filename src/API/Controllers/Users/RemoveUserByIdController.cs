@@ -2,7 +2,7 @@
 using Domain.Dtos.AppLayerDtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Dtos.Commands;
+using Domain.Dtos.Commands.Users;
 
 namespace API.Controllers.Users
 {
@@ -15,13 +15,12 @@ namespace API.Controllers.Users
 
         [HttpDelete("RemoveUserById")]
         public async Task<IActionResult> RemoveUserById(
-        [FromQuery] Guid idUser, CancellationToken cancellationToken)
+        [FromQuery] RemoveUserByIdCommand idUser, CancellationToken cancellationToken)
         {
             if (!this.ModelState.IsValid)
                 return this.BadRequest(this.ModelState);
 
-            var removeUserByIdCommand = new ByIdCommand(idUser);
-            ApiResponseDto _responseApi = await this._mediator.Send(removeUserByIdCommand, cancellationToken);
+            ApiResponseDto _responseApi = await this._mediator.Send(idUser, cancellationToken);
 
             return _responseApi.SuccesResponse 
                 ? this.Ok(_responseApi) 

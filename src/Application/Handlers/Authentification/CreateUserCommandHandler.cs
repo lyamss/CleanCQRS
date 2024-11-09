@@ -5,6 +5,7 @@ using Domain.Dtos.Query.Users;
 using Domain.Mappers.AuthToken;
 using Domain.Mappers.Users;
 using Domain.Models;
+using Infrastructure.Repository;
 using MediatR;
 namespace Application.Handlers.Authentification
 {
@@ -14,7 +15,7 @@ namespace Application.Handlers.Authentification
         UserMapper userMapper,
         AuthTokenMapper authTokenMapper,
         CreateUserCommandValidator validator,
-        IAddOrGetCacheSvsScoped addOrGetCache
+        IUserRepository userRepository
         )
         : IRequestHandler<CreateUserCommand, ApiResponseDto>
     {
@@ -23,7 +24,7 @@ namespace Application.Handlers.Authentification
         private readonly UserMapper _userMapper = userMapper;
         private readonly AuthTokenMapper _authTokenMapper = authTokenMapper;
         private readonly CreateUserCommandValidator _validator = validator;
-        private readonly IAddOrGetCacheSvsScoped _addOrGetCacheSvsScoped = addOrGetCache;
+        private readonly IUserRepository _userRepository = userRepository;
 
         public async Task<ApiResponseDto> Handle(CreateUserCommand setuserRegistrationDto, CancellationToken cancellationToken)
         {
@@ -35,7 +36,7 @@ namespace Application.Handlers.Authentification
             }
 
 
-            GetUserQuery2 userI = await this._addOrGetCacheSvsScoped.GetUserWithEmailAsyncCache(setuserRegistrationDto.Email, cancellationToken);
+            User userI = await this._userRepository.GetUserWithEmail(setuserRegistrationDto.Email, cancellationToken);
 
             if (userI is not null)
             {

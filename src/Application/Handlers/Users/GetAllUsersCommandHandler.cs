@@ -34,7 +34,7 @@ namespace Application.Handlers.Users
 
             if (!users.Any()) 
             { 
-                return ApiResponseDto.Success("no users in database", users);
+                return ApiResponseDto.Failure("no users in database");
             }
 
             return ApiResponseDto.Success("User(s) found", users);
