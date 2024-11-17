@@ -8,7 +8,7 @@ namespace API.Controllers.Users
     [Route("api/users")]
     [ApiController]
     [ServiceFilter(typeof(AuthorizeAuth))]
-    public class GetAllUsersController(IMediator mediator) : ControllerBase
+    public partial class Users(IMediator mediator) : ControllerBase
     {
         private readonly IMediator _mediator = mediator;
 

@@ -1,18 +1,11 @@
-﻿using API.Filters;
-using Domain.Dtos.AppLayerDtos;
+﻿using Domain.Dtos.AppLayerDtos;
 using Domain.Dtos.Commands.Users;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Users
 {
-    [Route("api/users")]
-    [ApiController]
-    [ServiceFilter(typeof(AuthorizeAuth))]
-    public class UpdateUserByIdController(IMediator mediator) : ControllerBase
+    public partial class Users
     {
-        private readonly IMediator _mediator = mediator;
-
         [HttpPatch("UpdateUserById")]
         public async Task<IActionResult> UpdateUserById(
         [FromBody] UpdateUserCommand updateUserCommand, CancellationToken cancellationToken)

@@ -1,19 +1,15 @@
 ﻿using Domain.Dtos.AppLayerDtos;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using API.Filters;
 using Domain.Dtos.Commands.Items;
+using Domain.Dtos.Query.Items;
 namespace API.Controllers.Items
 {
-    [Route("api/items")]
-    [ApiController]
-    [ServiceFilter(typeof(AuthorizeAuth))]
-    public class GetItemsByIdController(IMediator mediator) : ControllerBase
+    public partial class Items
     {
-        private readonly IMediator _mediator = mediator;
-
         [HttpGet("GetItemsById")]
-        public async Task<IActionResult> GetItemsById([FromQuery] GetItemByIdCommand idItem, CancellationToken cancellationToken)
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetItemsQuery>))]
+        public async Task<IActionResult> GetItemsById
+        ([FromQuery] GetItemByIdCommand idItem, CancellationToken cancellationToken)
         {
             if (!this.ModelState.IsValid)
                 return this.BadRequest(this.ModelState);
