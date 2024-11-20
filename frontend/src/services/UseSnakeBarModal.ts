@@ -1,16 +1,13 @@
 'use client'
-
-import { useGenericEffect } from '@/services/OtherTool/useGenericEffect';
 import * as React from 'react';
 
 
 
-export const UseSnakeBarModal = (MessageApiAuth: string | null): boolean =>
+export const UseSnakeBarModal = (isLoadingApiFetchLoginAndRegister: boolean, MessageApiAuth: string | null) =>
 {
     const [open, setOpen] = React.useState(false);
-    const timeOutSnakeBar = () =>
-    {
-        if (MessageApiAuth != null) 
+    React.useEffect(() => {
+    if (!isLoadingApiFetchLoginAndRegister && MessageApiAuth) 
         {
             setOpen(true);
             const timer = setTimeout(() => {
@@ -19,9 +16,7 @@ export const UseSnakeBarModal = (MessageApiAuth: string | null): boolean =>
         
             return () => clearTimeout(timer);
         }
-    }
+    }, [isLoadingApiFetchLoginAndRegister, MessageApiAuth])
     
-      useGenericEffect(timeOutSnakeBar, []);
-
-      return open;
+    return {open};
 };

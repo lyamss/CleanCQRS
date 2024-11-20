@@ -6,30 +6,31 @@ namespace Application.Services
 {
     internal sealed class AuthorizeAuthSvsScoped
         (
-        IAddOrGetCacheSvsScoped addOrGetCacheSvsScoped
+        IAddOrGetCacheSvsScoped addOrGetCacheSvsScoped,
+        IConfigStringSvs configStringSvs
         ) : IAuthorizeAuthSvsScoped
     {
         private readonly IAddOrGetCacheSvsScoped _addOrGetCacheSvsScoped = addOrGetCacheSvsScoped;
+        private readonly IConfigStringSvs _configStringSvs = configStringSvs;
 
         public async Task OnAuthorize(AuthorizationFilterContext context)
         {
-            string jwt = null;
+            string cookie = null;
 
-            if (context.HttpContext.Request.Headers.TryGetValue("Authorization", out var authorizationHeader))
+            if (context.HttpContext.Request.Cookies.TryGetValue(this._configStringSvs.CookieUserConnected, out string co))
             {
-                if (authorizationHeader.ToString().StartsWith("Bearer "))
-                {
-                    jwt = authorizationHeader.ToString().Substring(7);
-                }
+
+                cookie = co;
+
             }
 
-            if (jwt is null)
+            if (cookie is null)
             {
                 context.Result = new UnauthorizedResult();
                 return;
             }
 
-            GetAuthTokenQuery authToken = await this._addOrGetCacheSvsScoped.GetAuthTokenWithTokenAsyncCache(jwt, context.HttpContext.RequestAborted);
+            GetAuthTokenQuery authToken = await this._addOrGetCacheSvsScoped.GetAuthTokenWithTokenAsyncCache(cookie, context.HttpContext.RequestAborted);
 
             if (authToken is null || authToken.ExpirationDate < DateTime.UtcNow)
             {

@@ -1,6 +1,6 @@
 import { UseUser } from "@/services/UseUser";
 import { useRouter } from 'next/navigation'
-import { useGenericEffect } from "@/services/OtherTool/useGenericEffect";
+import { useEffect } from "react";
 
 
 enum AuthStatus
@@ -37,25 +37,22 @@ export const AuthProvider = ({ children, LoadingComponent, isProtected }: AuthRe
   }
 
 
-  const RedirectUser = () =>
-  {
+  useEffect(() => {
     let timer: NodeJS.Timeout | undefined;
     if (isProtected && status === AuthStatus.Unauthenticated) 
     {
-      timer = setTimeout(() => {
-        router.push("/Login");
-      }, 3000);
+        timer = setTimeout(() => {
+            router.push("/Login");
+        }, 3000);
     }
     if (!isProtected && status === AuthStatus.Authenticated) 
     {
-      timer = setTimeout(() => {
-        router.push("/");
-      }, 3000);
+        timer = setTimeout(() => {
+            router.push("/");
+        }, 3000);
     }
     return () => clearTimeout(timer);
-  }
-
-  useGenericEffect(RedirectUser, []);
+}, [isProtected, status, router]);
     
 
   if (isProtected && status === AuthStatus.Authenticated) { return children; }

@@ -8,7 +8,7 @@ export interface FetchOptions {
 }
 
 export class apiClient {
-    public static async FetchData<T>(
+    public static async FetchData(
         url: string,
         options: FetchOptions = {}
     ): Promise<Response> {

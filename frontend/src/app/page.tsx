@@ -8,21 +8,23 @@ import Skeleton from '@mui/material/Skeleton';
 import { UserIcon, CalendarIcon, AtSignIcon as AtSymbolIcon } from 'lucide-react'
 import { LoaderCustombg } from '@/components/ui/LoaderCustombg';
 import { UseUser } from '@/services/UseUser';
-import { AuthProvider } from '@/services/Authentification/AuthProvider';
+import { AuthProvider } from '@/services/AuthProvider';
 
 const HomePage = () => {
 
   const { UserAllDto } = UseUser();
+  const [UserAllDtoInArray, SetUserAllDtoInArray] = useState<GetUserDto[] | null>(null);
 
-const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, []);
+ useEffect(() => {
+  if(Array.isArray(UserAllDto))
+  {
+    const userAllDtoArray: GetUserDto[] = [];
+    UserAllDto.forEach((item: GetUserDto) => {
+      userAllDtoArray.push(item);
+    });
+    SetUserAllDtoInArray(userAllDtoArray);
+  }
+ }, [UserAllDto]);
 
   return (
     <>
@@ -30,26 +32,13 @@ const [isLoading, setIsLoading] = useState(true);
     LoadingComponent={<Loader1/>}
     isProtected={true}
     >
-        {isLoading ? 
-        
-          <LoadingPagePrincipale />  :   
               
-         <VuePage getAllUsers={UserAllDto || []}/>
-        }
-    </AuthProvider>
-    </>
-  );
-}
-
-
-const VuePage = ({ getAllUsers }: { getAllUsers: GetUserDto[] }) => {
-  return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+<div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl font-extrabold text-gray-900 text-center mb-8">User List</h1>
-        {getAllUsers.length > 0 ? (
+        {UserAllDtoInArray && UserAllDtoInArray.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {getAllUsers.map((user) => (
+            {UserAllDtoInArray.map((user) => (
               <div key={user.id_User} className="bg-white overflow-hidden shadow rounded-lg">
                 <div className="px-4 py-5 sm:p-6">
                   <div className="flex items-center">
@@ -84,7 +73,9 @@ const VuePage = ({ getAllUsers }: { getAllUsers: GetUserDto[] }) => {
         )}
       </div>
     </div>
-  )
+    </AuthProvider>
+    </>
+  );
 }
 
 const LoadingPagePrincipale = () =>
