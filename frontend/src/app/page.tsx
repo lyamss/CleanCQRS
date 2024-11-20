@@ -1,18 +1,18 @@
 'use client'
 
 import 'tailwindcss/tailwind.css';
-import AuthRedirect from "@/services/AuthRedirect"
+import AuthProvider from "@/services/Authentification/AuthProvider"
 import Loader1 from "@/components/Loading/Loader1"
-import { UseAuth } from "@/Hook/HookApi/UseAuth"
-import { GetUserDto } from '@/models/Users';
+import { GetUserDto } from '@/services/modelsDto/Users';
 import { useEffect, useState } from 'react';
 import Skeleton from '@mui/material/Skeleton';
 import { UserIcon, CalendarIcon, AtSignIcon as AtSymbolIcon } from 'lucide-react'
 import { LoaderCustombg } from '@/components/ui/LoaderCustombg';
+import { UseUser } from '@/services/UseUser';
 
 const HomePage = () => {
 
-  const { UserAllDto, UserGetAlls } = UseAuth();
+  const { UserAllDto, UserGetAlls } = UseUser();
 
 useEffect(() => {
   UserGetAlls()
@@ -30,7 +30,7 @@ const [isLoading, setIsLoading] = useState(true);
 
   return (
     <>
-    <AuthRedirect
+    <AuthProvider
     LoadingComponent={<Loader1/>}
     isProtected={true}
     >
@@ -40,7 +40,7 @@ const [isLoading, setIsLoading] = useState(true);
               
          <VuePage getAllUsers={UserAllDto || []}/>
         }
-    </AuthRedirect>
+    </AuthProvider>
     </>
   );
 }

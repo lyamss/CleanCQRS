@@ -3,22 +3,22 @@
 import * as React from 'react';
 import ButtonLoading1 from "@/components/button/ButtonLoading1";
 import Loader1 from "@/components/Loading/Loader1";
-import { UseAuth } from "@/Hook/HookApi/UseAuth";
-import { SetLoginAndRegisterUserClassicDto } from "@/models/Users";
-import AuthRedirect from "@/services/AuthRedirect";
+import { SetLoginAndRegisterUserClassicDto } from "@/services/modelsDto/Users";
+import AuthProvider from "@/services/Authentification/AuthProvider";
 import { useState } from "react";
 import { Lock, AtSignIcon as AtSymbolIcon } from 'lucide-react'
 import Snackbar from '@mui/material/Snackbar';
+import { UseUser } from '@/services/UseUser';
 
 const LoginPage = () =>
 {
     return (
         <>
-            <AuthRedirect 
+            <AuthProvider
             LoadingComponent={<Loader1 />} 
             isProtected={false}>
                 <VuePage/>
-            </AuthRedirect>
+            </AuthProvider>
         </>
     );
 }
@@ -39,7 +39,7 @@ const LoginPage = () =>
 
 const VuePage = () =>
 {
-  const { isLoadingLoginAndRegister, AuthLoginClassic, MessageApiAuth } = UseAuth();
+  const { isLoadingLoginAndRegister, AuthLoginClassic, MessageApiAuth } = UseUser();
   const [open, setOpen] = React.useState(false);
 
   React.useEffect(() => {

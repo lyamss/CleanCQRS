@@ -1,4 +1,4 @@
-import { servicesTools } from "@/services/Tools";
+import { servicesTools } from "@/services/OtherTool/Tools";
 
 export interface FetchOptions {
     formData?: FormData;

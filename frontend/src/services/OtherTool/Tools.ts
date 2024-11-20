@@ -26,16 +26,5 @@ export namespace servicesTools
             const d = new Date(date);
             return d instanceof Date && !isNaN(d.getTime());
         }
-
-        public static compareByProperty<T, K extends keyof T>(a: T, b: T, prop: K): number
-        {
-            if (a[prop] < b[prop]) {
-                return -1;
-              }
-              if (a[prop] > b[prop]) {
-                return 1;
-              }
-              return 0;
-        }
     }
 }
