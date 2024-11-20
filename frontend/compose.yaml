@@ -1,0 +1,14 @@
+services:
+
+  frontcleancqrs:
+    container_name: frontcleancqrs
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        CONFIG_FILE: .env
+    ports:
+      - ${NEXT_PUBLIC_PORT}:${NEXT_PUBLIC_PORT}
+    environment:
+      - NODE_ENV=production

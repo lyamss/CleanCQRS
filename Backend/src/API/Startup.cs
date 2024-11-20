@@ -31,7 +31,7 @@ namespace API
                 options.AddPolicy(name: "web_site_Front", configurePolicy: policyBuilder =>
                 {
                     policyBuilder.WithOrigins(Env.GetString("IP_NOW_FRONTEND"))
-                    .WithHeaders("Content-Type")
+                    .AllowAnyHeader()
                     .WithMethods("GET", "POST", "PATCH")
                     .AllowCredentials();
                 });
