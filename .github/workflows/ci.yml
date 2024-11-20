@@ -11,6 +11,25 @@ on:
 
 jobs:
 
+
+  audit-libNodeJS:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout librairies
+      uses: actions/checkout@v4
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install dependencies and run audit in Web Site folder
+      run: |
+        cd frontend
+        npm install
+        npm audit
+
+
   audit-lib:
     runs-on: ubuntu-latest
     steps:
@@ -24,13 +43,16 @@ jobs:
 
     - name: Restore dependencies and run audit in Api Server
       run: |
+        cd backend
         dotnet restore
         dotnet list package --vulnerable
 
     - name: Build Api Server
       run: |
+        cd backend
         dotnet build
 
-    # - name: Unit Testing Api Server
-    #   run: |
-    #     dotnet test
+     - name: Unit Testing Api Server
+       run: |
+        cd backend
+        dotnet test

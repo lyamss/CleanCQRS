@@ -1,0 +1,48 @@
+{
+  "name": "cleancqrs-website",
+  "version": "0.1.0",
+  "private": true,
+  "author": "cleancqrs",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev -p 3007",
+    "build": "next build",
+    "start": "next start -p 3007",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.1.7",
+    "@radix-ui/react-icons": "^1.3.0",
+    "@radix-ui/react-select": "^2.1.2",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@tsparticles/engine": "^3.5.0",
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.5.0",
+    "autoprefixer": "^10.4.20",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.11.17",
+    "lucide-react": "^0.344.0",
+    "mini-svg-data-uri": "^1.4.4",
+    "next": "14.2.10",
+    "next-themes": "^0.4.3",
+    "react": "^18.3.1",
+    "react-awesome-reveal": "^4.2.14",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.3.0",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.5",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.0.0",
+    "daisyui": "^4.12.13",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^0.2.4",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3"
+  }
+}
