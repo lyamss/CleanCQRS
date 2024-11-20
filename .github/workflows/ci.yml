@@ -1,4 +1,4 @@
-name: .NET Core Audit
+name: .AspNetCore & React NextJS Audit
 
 on:
   push:
@@ -10,12 +10,10 @@ on:
       - main
 
 jobs:
-
-
   NodeJSAudit:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout librairies
+    - name: Checkout libraries
       uses: actions/checkout@v4
 
     - name: Use Node.js
@@ -29,13 +27,12 @@ jobs:
         npm install
         npm audit
 
-
   DotnetAudit:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout librairies
+    - name: Checkout libraries
       uses: actions/checkout@v4
-    
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v3
       with:
@@ -43,16 +40,16 @@ jobs:
 
     - name: Restore dependencies and run audit in Api Server
       run: |
-        cd backend
+        cd Backend
         dotnet restore
         dotnet list package --vulnerable
 
     - name: Build Api Server
       run: |
-        cd backend
+        cd Backend
         dotnet build
 
-     - name: Unit Testing Api Server
-       run: |
-        cd backend
+    - name: Unit Testing Api Server
+      run: |
+        cd Backend
         dotnet test
