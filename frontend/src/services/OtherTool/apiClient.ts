@@ -1,19 +1,17 @@
-import { servicesTools } from "@/services/Tools";
+import { servicesTools } from "@/services/OtherTool/Tools";
 
-export default interface FetchOptions
-{
+export interface FetchOptions {
     formData?: FormData;
     json?: Record<string, unknown>;
     method?: string;
     headers?: Record<string, string>;
 }
 
-export class apiClient
-{
-    public static async FetchData<T>(
+export class apiClient {
+    public static async FetchData(
         url: string,
         options: FetchOptions = {}
-    ): Promise<T> {
+    ): Promise<Response> {
         const method = options.method ?? (options.formData ? "POST" : options.json ? "POST" : "GET");
         const body = options.formData ?? JSON.stringify(options.json);
         const headers: Record<string, string> = { accept: "application/json", ...options.headers };
@@ -29,21 +27,6 @@ export class apiClient
             body,
             headers,
         });
-
-        if (!r.ok) {
-            const data = await r.json();
-            throw new ApiError(data.message || 'Une erreur s\'est produite', data.result, data.succesResponse);
-        }
-
-        const responseData = await r.json();
-        return responseData as T;
-    }
-}
-        
-export class ApiError extends Error 
-{
-    constructor(public message: string, public result: object, public succesResponse: boolean) 
-    {
-        super(message);
+        return r;
     }
 }
