@@ -12,7 +12,7 @@ on:
 jobs:
 
 
-  audit-libNodeJS:
+  NodeJSAudit:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout librairies
@@ -30,7 +30,7 @@ jobs:
         npm audit
 
 
-  audit-lib:
+  DotnetAudit:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout librairies

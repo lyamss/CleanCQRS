@@ -7,12 +7,12 @@ The server project is written in C# using .NET Core with ASP.NET Core.
 # I use mediatR for CQRS
 
 <p align="center">
-  <img src="./assets/mediatR.png" width="50" height="50">
+  <img src="./Backend/assets/mediatR.png" width="50" height="50">
 </p>
 
 # Schema Cache
 
-![Schema Cache](./assets/redisD.png)
+![Schema Cache](./Backend/assets/redisD.png)
 
 # Class UML
 
