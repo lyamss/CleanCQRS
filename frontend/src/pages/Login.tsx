@@ -4,12 +4,13 @@ import * as React from 'react';
 import ButtonLoading1 from "@/components/button/ButtonLoading1";
 import Loader1 from "@/components/Loading/Loader1";
 import { SetLoginAndRegisterUserClassicDto } from "@/services/modelsDto/Users";
-import AuthProvider from "@/services/Authentification/AuthProvider";
 import { useState } from "react";
 import { Lock, AtSignIcon as AtSymbolIcon } from 'lucide-react'
 import Snackbar from '@mui/material/Snackbar';
 import { UseUser } from '@/services/UseUser';
-
+import { UseSnakeBarModal } from '@/services/UseSnakeBarModal';
+import { AuthProvider } from '@/services/Authentification/AuthProvider';
+import { useGenericEffect } from '@/services/OtherTool/useGenericEffect';
 const LoginPage = () =>
 {
     return (
@@ -40,18 +41,10 @@ const LoginPage = () =>
 const VuePage = () =>
 {
   const { isLoadingLoginAndRegister, AuthLoginClassic, MessageApiAuth } = UseUser();
-  const [open, setOpen] = React.useState(false);
+  const open = UseSnakeBarModal(MessageApiAuth);
 
-  React.useEffect(() => {
-    if (MessageApiAuth) {
-      setOpen(true);
-      const timer = setTimeout(() => {
-        setOpen(false);
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [MessageApiAuth]);
+  // console.log(open);
+  // console.log(MessageApiAuth);
 
     const [formData, setFormData] = useState<SetLoginAndRegisterUserClassicDto>({
       password: "",
@@ -105,7 +98,7 @@ const VuePage = () =>
               />
             </div>
             <p className="mt-4 text-center text-sm text-gray-600">
-              {"Pas de compte? "}
+              Pas de compte?
               <a href="#" className="font-medium text-black hover:underline">
                 Inscription
               </a>

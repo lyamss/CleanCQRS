@@ -1,7 +1,6 @@
 'use client'
 
 import 'tailwindcss/tailwind.css';
-import AuthProvider from "@/services/Authentification/AuthProvider"
 import Loader1 from "@/components/Loading/Loader1"
 import { GetUserDto } from '@/services/modelsDto/Users';
 import { useEffect, useState } from 'react';
@@ -9,14 +8,11 @@ import Skeleton from '@mui/material/Skeleton';
 import { UserIcon, CalendarIcon, AtSignIcon as AtSymbolIcon } from 'lucide-react'
 import { LoaderCustombg } from '@/components/ui/LoaderCustombg';
 import { UseUser } from '@/services/UseUser';
+import { AuthProvider } from '@/services/Authentification/AuthProvider';
 
 const HomePage = () => {
 
-  const { UserAllDto, UserGetAlls } = UseUser();
-
-useEffect(() => {
-  UserGetAlls()
-}, [UserGetAlls])
+  const { UserAllDto } = UseUser();
 
 const [isLoading, setIsLoading] = useState(true);
 

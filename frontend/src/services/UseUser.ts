@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { GetUserDto, SetLoginAndRegisterUserClassicDto } from "@/services/modelsDto/Users";
 import { useRouter } from 'next/navigation';
 import { apiClient } from "@/services/OtherTool/apiClient";
+import { useGenericEffect } from "./OtherTool/useGenericEffect";
 
 export const UseUser = () =>
 {
@@ -48,7 +49,7 @@ export const UseUser = () =>
             localStorage.setItem('token', token);
             router.push("/");
           }
-  
+                                                          
           setIsLoadingLoginAndRegister(false);
       }, [router]);
   
@@ -69,9 +70,12 @@ export const UseUser = () =>
             localStorage.setItem('token', token);
             router.push("/");
           }
-  
+  console.log(MessageApiAuth);
           setIsLoadingLoginAndRegister(false);
       }, [router]);
+
+
+      useGenericEffect(UserGetAlls, []);
 
       return {
         AuthRegister,
@@ -79,6 +83,5 @@ export const UseUser = () =>
         AuthLoginClassic,
         isLoadingLoginAndRegister,
         UserAllDto,
-        UserGetAlls,
     }
 }
