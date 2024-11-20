@@ -41,12 +41,10 @@ const VuePage = () =>
 {
   const { isLoadingLoginAndRegister, AuthLoginClassic, MessageApiAuth } = UseAuth();
   const [open, setOpen] = React.useState(false);
-  const [neverChange, setNeverChange] = useState(false);
 
   React.useEffect(() => {
-    if (!isLoadingLoginAndRegister && neverChange) {
+    if (MessageApiAuth) {
       setOpen(true);
-      setNeverChange(false);
       const timer = setTimeout(() => {
         setOpen(false);
       }, 5000);
@@ -66,7 +64,6 @@ const VuePage = () =>
 
     const handleLogin = () => {
         AuthLoginClassic(formData);
-        setNeverChange(true);
       };
 
       return (

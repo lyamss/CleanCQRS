@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { AuthStatus } from "@/services/AuthStatus";
 import { GetUserDto, SetLoginAndRegisterUserClassicDto } from "@/models/Users";
-import { apiClient, ApiError } from "@/services/apiClient";
+import { apiClient } from "@/services/apiClient";
 import { useRouter } from 'next/navigation';
 
 export const UseAuth = () =>
@@ -25,57 +25,66 @@ export const UseAuth = () =>
 
     const UserGetAlls = useCallback(async () => {
       const token = localStorage.getItem('token');
-      await apiClient.FetchData<{message: string, result: GetUserDto}>("/users/GetAllUsers", {
+      const r = await apiClient.FetchData("/users/GetAllUsers", {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`
         }
       })
-      .then((response) => {
-        setUserAllDto(response.result);
-      })
-      .catch(() => {
+
+      if(!r.ok)
+      {
         setUserAllDto(null);
-      })
+      }
+
+      if(r.ok)
+      {
+        const response = await r.json();
+        setUserAllDto(response.result);
+      }
     }, []);
 
 
     const AuthRegister = useCallback(async (SetUserDto: SetLoginAndRegisterUserClassicDto) => {
       setIsLoadingLoginAndRegister(true);
-        await apiClient.FetchData<{message: string, result: { User: any, "Token Session": { token: string, expirationDate: string } }}>("/Auth/register", { json: SetUserDto })
-        .then((response) => {
+        const r = await apiClient.FetchData("/Auth/register", { json: SetUserDto })
+        const response = await r.json();
+        if(!r.ok)
+        {
+          setMessageApiAuth(response.message);
+        }
+
+        if(r.ok)
+        {
+          setMessageApiAuth(response.message);
           const token = response.result["Token Session"].token;
           localStorage.setItem('token', token);
           router.push("/");
-        })
-        .catch(error => {
-          if (error instanceof ApiError) {
-              setMessageApiAuth(error.message);
-          }
-        })
-        .finally(() => {
-          setIsLoadingLoginAndRegister(false);
-        })
+        }
+
+        setIsLoadingLoginAndRegister(false);
     }, [router]);
 
 
-    const AuthLoginClassic = useCallback(async (SetLoginUserDto: SetLoginAndRegisterUserClassicDto) => {
+    const AuthLoginClassic = useCallback(async (SetUserDto: SetLoginAndRegisterUserClassicDto) => {
       setIsLoadingLoginAndRegister(true);
-        await apiClient.FetchData<{message: string, result: { User: any, "Token Session": { token: string, expirationDate: string } }}>("/Auth/Login", { json: SetLoginUserDto })
-        .then((response) => {
+        const r = await apiClient.FetchData("/Auth/Login", { json: SetUserDto })
+        const response = await r.json();
+        if(!r.ok)
+        {
+          setMessageApiAuth(response.message);
+        }
+
+        if(r.ok)
+        {
+          setMessageApiAuth(response.message);
           const token = response.result["Token Session"].token;
           localStorage.setItem('token', token);
-          setMessageApiAuth(response.message);
           router.push("/");
-        })
-        .catch((response) => {
-            if(response instanceof ApiError) 
-            { setMessageApiAuth(response.message); }
-        })
-        .finally(() => {
-          setIsLoadingLoginAndRegister(false);
-        });
-      }, [router]);
+        }
+
+        setIsLoadingLoginAndRegister(false);
+    }, [router]);
 
 
 
