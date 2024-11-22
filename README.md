@@ -14,6 +14,12 @@ The server project is written in C# using .NET Core with ASP.NET Core.
 
 ![Schema Cache](./Backend/assets/redisD.png)
 
+## Front WebSite TP in React NextJS
+
+![LoginPage](./frontend/public/loginPage.jpg)
+
+![WelcomePage](./frontend/public/WelcomePage.png)
+
 # Class UML
 
 ```mermaid
