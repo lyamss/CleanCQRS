@@ -6,6 +6,16 @@ export type GetUserDto =
 }
 
 
+export type GetItemsDto = 
+{
+    name: string;
+    description: string,
+    price: number,
+    id_items: string,
+    createdAt: Date
+}
+
+
 export type SetLoginAndRegisterUserClassicDto =
 {
     email: string;

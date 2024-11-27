@@ -10,6 +10,7 @@ import Snackbar from '@mui/material/Snackbar';
 import { UseUser } from '@/services/UseUser';
 import { UseSnakeBarModal } from '@/services/UseSnakeBarModal';
 import { AuthProvider } from '@/services/AuthProvider';
+import Link from 'next/link';
 
 
 
@@ -75,9 +76,9 @@ const LoginPage = () =>
                     </div>
                     <p className="mt-4 text-center text-sm text-gray-600">
                       Pas de compte?
-                      <a href="#" className="font-medium text-black hover:underline">
+                      <Link href="/Register" className="font-medium text-black hover:underline">
                         Inscription
-                      </a>
+                      </Link>
                     </p>
                   </div>
                   <Snackbar

@@ -1,14 +1,31 @@
 import { useCallback, useEffect, useState } from "react";
-import { GetUserDto, SetLoginAndRegisterUserClassicDto } from "@/services/modelsDto/Users";
+import { GetItemsDto, GetUserDto, SetLoginAndRegisterUserClassicDto } from "@/services/modelsDto/Users";
 import { useRouter } from 'next/navigation';
 import { apiClient } from "@/services/OtherTool/apiClient";
 
 export const UseUser = () =>
 {
     const [UserAllDto, setUserAllDto] = useState<GetUserDto | null>(null);
+    const [ItemsAllDto, setItemsAllDto] = useState<GetItemsDto | null>(null);
     const [MessageApiAuth, setMessageApiAuth] = useState<string | null>(null);
     const [isLoadingApiFetchLoginAndRegister, setisLoadingApiFetchLoginAndRegister] = useState(false);
     const router = useRouter();
+
+
+    const ItemsGetAlls = useCallback(async () => {
+      const r = await apiClient.FetchData("/items/GetAllItems")
+      if(!r.ok)
+      {
+        setItemsAllDto(null);
+      }
+      if(r.ok)
+      {
+        const response = await r.json();
+        setItemsAllDto(response.result);
+      }
+    }, []);
+
+
 
     const UserGetAlls = useCallback(async () => {
         const r = await apiClient.FetchData("/users/GetAllUsers")
@@ -58,9 +75,30 @@ export const UseUser = () =>
       }, [router]);
 
 
+      const AddItems = useCallback(async (SetItemDto: GetItemsDto) => {
+        setisLoadingApiFetchLoginAndRegister(true);
+          const r = await apiClient.FetchData("/items/AddItems", { json: SetItemDto })
+          const response = await r.json();
+          if(!r.ok)
+          {
+            setMessageApiAuth(response.message);
+          }
+          if(r.ok)
+          {
+            setMessageApiAuth(response.message);
+          }
+          setisLoadingApiFetchLoginAndRegister(false);
+      }, [router]);
+
+
       useEffect(() => {
         UserGetAlls()
       }, [UserGetAlls])
+
+
+      useEffect(() => {
+        ItemsGetAlls()
+      }, [ItemsGetAlls])
 
       return {
         AuthRegister,
@@ -68,5 +106,7 @@ export const UseUser = () =>
         AuthLoginClassic,
         isLoadingApiFetchLoginAndRegister,
         UserAllDto,
+        ItemsAllDto,
+        AddItems
     }
 }
